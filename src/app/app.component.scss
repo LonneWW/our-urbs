@@ -1,0 +1,23 @@
+nav {
+  height: 10vh;
+  background-color: lightblue;
+  #logout-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 8px 8px 8px 0px;
+    height: 3em;
+    width: 3em;
+  }
+
+  #logout-icon {
+    font-size: 25px;
+    font-weight: 600;
+    color: red;
+  }
+}
+
+main {
+  margin: 2em auto 0 auto;
+  width: 60%;
+}
