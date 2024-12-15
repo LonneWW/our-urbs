@@ -1,5 +1,5 @@
 h2 {
-  font-size: 7.5em;
+  font-size: clamp(10vh, 5em, 30vh);
   text-align: center;
 }
 
@@ -9,10 +9,18 @@ h2 {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  mat-form-field {
+  .token-container {
     width: 60%;
-    margin: 2em;
-    margin-top: 4em;
+    margin: 4em 2em 0 2em;
     vertical-align: bottom;
+  }
+  .error-message {
+    min-height: 1.5em;
+    color: red;
+    font-size: 15px;
+  }
+
+  button[type="submit"] {
+    margin-top: 3em;
   }
 }

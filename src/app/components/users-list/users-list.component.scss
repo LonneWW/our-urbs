@@ -1,0 +1,25 @@
+.users-container {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  .user {
+    width: 20%;
+    margin: 15px;
+    & > mat-card-header {
+      display: flex;
+      flex-direction: column-reverse;
+      justify-content: end;
+      img {
+        border-radius: 50%;
+      }
+      mat-card-title {
+        height: 3em;
+        margin: 1em;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+      }
+    }
+  }
+}

@@ -1,10 +1,30 @@
-<form class="form-container" [formGroup]="loginForm">
+<form
+  class="form-container"
+  [formGroup]="loginForm"
+  (ngSubmit)="onSubmit(loginForm)"
+>
   <h2>Login</h2>
-  <mat-form-field [hideRequiredMarker]="true">
+  <mat-form-field class="token-container" [hideRequiredMarker]="true">
     <mat-label>Access Token</mat-label>
-    <input matInput name="token" formControlName="token" required />
+    <input
+      matInput
+      name="token"
+      formControlName="token"
+      required
+      minlength="64"
+    />
   </mat-form-field>
+  <div class="error-message">
+    {{
+      !loginForm.get("token")?.valid && loginForm.get("token")?.touched
+        ? "Insert a token: the token should be 64 chars long"
+        : ""
+    }}
+  </div>
+  <button mat-raised-button type="submit" [disabled]="loginForm.invalid">
+    Submit
+  </button>
 </form>
-<a href="https://gorest.co.in/consumer/login" id="getTokenLink">
-  You don't have an access token? Get it here.
+<a href="https://gorest.co.in/consumer/login" target="_blank" id="getTokenLink">
+  Don't have an access token? Get it here.
 </a>

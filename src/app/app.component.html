@@ -1,9 +1,10 @@
 <nav>
   <div class="nav-btns">
-    <a routerLink="/">"home"</a>
+    <a routerLink="/home">"home"</a>
     <a routerLink="/login">"login"</a>
   </div>
-  <button mat-icon-button aria-label id="logout-btn">
+
+  <button mat-icon-button aria-label id="logout-btn" (click)="onLogout()">
     <mat-icon id="logout-icon">logout</mat-icon>
   </button>
 </nav>

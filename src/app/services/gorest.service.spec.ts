@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { HttpGorestService } from './http-gorest.service';
+import { GorestService } from './gorest.service';
 
-describe('HttpGorestService', () => {
-  let service: HttpGorestService;
+describe('GorestService', () => {
+  let service: GorestService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(HttpGorestService);
+    service = TestBed.inject(GorestService);
   });
 
   it('should be created', () => {
