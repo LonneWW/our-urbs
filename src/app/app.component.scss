@@ -1,14 +1,27 @@
 nav {
-  position: relative;
-  height: 10vh;
-  background-color: lightblue;
+  mat-toolbar {
+    height: 12vh;
+    background-color: lightblue;
+    #app-logo {
+      font-size: 25px;
+      font-weight: 600;
+      margin: auto 2%;
+    }
+    mat-form-field {
+      margin-top: 2vh;
+      height: 8vh;
+    }
+    #search-btn {
+      font-size: 25px;
+      font-weight: 600;
+      color: black;
+    }
+  }
+
   #logout-btn {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: 8px 8px 8px 0px;
     height: 3em;
     width: 3em;
+    margin-left: auto;
   }
 
   #logout-icon {

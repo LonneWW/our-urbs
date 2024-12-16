@@ -35,7 +35,7 @@ export class AuthService {
 
   onTokenSubmit(userToken: string): Observable<any> {
     this.setAuthToken(userToken);
-    return this.gorestService.getUsers('20'); //da modificare!
+    return this.gorestService.getUsers();
   }
 
   onSuccessfullLogin(): void {

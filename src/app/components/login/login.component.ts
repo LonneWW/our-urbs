@@ -64,7 +64,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       next: (r) => {
         if (r) {
           this.auth.onSuccessfullLogin();
-          this.http.setData(r);
+          this.http.setUsers(r);
         }
         this.ruoter.navigate(['/']);
       },
