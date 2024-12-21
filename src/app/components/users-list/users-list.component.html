@@ -1,6 +1,18 @@
-<p>users-list works!</p>
 <div class="users-container">
-  <mat-card class="user" *ngFor="let user of usersList">
+  <mat-card class="user add-user-card">
+    <mat-card-header>
+      <!-- Da implementare-->
+      <button (click)="onAddUser()">
+        <img
+          mat-card-avatar
+          src="https://www.svgrepo.com/show/42164/add-people-interface-symbol-of-black-person-close-up-with-plus-sign-in-small-circle.svg"
+          alt="Add user icon"
+        />
+      </button>
+      <mat-card-title> Add a user </mat-card-title>
+    </mat-card-header>
+  </mat-card>
+  <mat-card class="user" *ngFor="let user of users">
     <mat-card-header>
       <img
         src="https://placehold.co/50/royalblue/orange.svg"

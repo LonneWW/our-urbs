@@ -43,6 +43,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
+      name: new FormControl<string>(''),
+      email: new FormControl<string>(''),
       token: new FormControl<string>('', [
         Validators.minLength(64),
         Validators.maxLength(64),
@@ -54,9 +56,12 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (this.loginSubscription) this.loginSubscription.unsubscribe();
   }
 
-  onSubmit(form: FormGroup): void {
-    this.authRequest(form.value.token);
-    form.reset();
+  onSubmit(): void {
+    const form = this.loginForm.value;
+    this.authRequest(form.token);
+    this.http.setName(form.name);
+    this.http.setEmail(form.email);
+    this.loginForm.reset();
   }
 
   authRequest(token: string): void {
@@ -64,9 +69,8 @@ export class LoginComponent implements OnInit, OnDestroy {
       next: (r) => {
         if (r) {
           this.auth.onSuccessfullLogin();
-          this.http.setUsers(r);
         }
-        this.ruoter.navigate(['/']);
+        this.ruoter.navigate(['/home']);
       },
       error: (e) => {
         alert('The token is incorrect. Please try again.');

@@ -1,0 +1,30 @@
+mat-toolbar {
+  height: 12vh;
+  background-color: lightblue;
+  #app-logo {
+    font-size: 25px;
+    font-weight: 600;
+    margin: auto 2%;
+  }
+  mat-form-field {
+    margin-top: 2vh;
+    height: 8vh;
+  }
+  #search-btn {
+    font-size: 25px;
+    font-weight: 600;
+    color: black;
+  }
+}
+
+#logout-btn {
+  height: 3em;
+  width: 3em;
+  margin-left: auto;
+}
+
+#logout-icon {
+  font-size: 25px;
+  font-weight: 600;
+  color: red;
+}

@@ -1,39 +1,5 @@
 <nav>
-  <mat-toolbar>
-    <a routerLink="/home" id="app-logo">Our Urbs</a>
-    <!-- <div class="nav-btns">
-      <a routerLink="/home">"home"</a>
-      <a routerLink="/login">"login"</a>
-    </div> -->
-    <form [formGroup]="searchForm" (ngSubmit)="onSearchSubmit($event)">
-      <mat-form-field appearance="outline">
-        <mat-label>Search</mat-label>
-        <input
-          matInput
-          type="search"
-          name="searchField"
-          formControlName="searchField"
-        />
-        <button
-          mat-icon-button
-          type="submit"
-          id="search-btn"
-          aria-label="Search button"
-          matSuffix
-        >
-          <mat-icon>search</mat-icon>
-        </button>
-      </mat-form-field>
-    </form>
-    <button
-      mat-icon-button
-      id="logout-btn"
-      aria-label="Logout button"
-      (click)="onLogout()"
-    >
-      <mat-icon id="logout-icon">logout</mat-icon>
-    </button>
-  </mat-toolbar>
+  <app-search-bar></app-search-bar>
 </nav>
 <main>
   <!-- Da trasformare in mat-btn con icona da mat -->

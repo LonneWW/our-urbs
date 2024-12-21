@@ -1,0 +1,29 @@
+<div class="post-comments">
+  <div class="comments-container">
+    <form [formGroup]="commentForm" (submit)="onSubmit(post)">
+      <mat-form-field class="">
+        <textarea
+          matInput
+          type="textarea"
+          name="body"
+          formControlName="body"
+          placeholder="Leave a comment here"
+          required
+        ></textarea>
+      </mat-form-field>
+      <div class="error-message">
+        {{
+          !commentForm.get("comment")?.valid &&
+          commentForm.get("comment")?.touched
+            ? "Please fill both fields"
+            : ""
+        }}
+      </div>
+      <button type="submit" [disabled]="commentForm.invalid">Post</button>
+    </form>
+    <div class="comment" *ngFor="let comment of comments">
+      <h3 class="comment-creator">{{ comment.name }}</h3>
+      <div class="comment-body">{{ comment.body }}</div>
+    </div>
+  </div>
+</div>

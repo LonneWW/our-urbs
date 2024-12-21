@@ -1,11 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
 
+$primary-color: #3498db;
+$secondary-color: #2ecc71;
+$background-color: #818181;
+$title-color: black;
+$text-color: #2c3e50;
+
 html,
 body {
   height: 100%;
 }
 body {
   margin: 0;
+  background-color: $background-color; //da rimuovere o modificare
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  background-color: grey; //da rimuovere o modificare
+  color: $text-color;
+  h2,
+  h3 {
+    color: $title-color;
+  }
 }

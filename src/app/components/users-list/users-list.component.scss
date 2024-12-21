@@ -2,13 +2,35 @@
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
+  .add-user-card {
+    button {
+      height: 100%;
+      width: 100%;
+      border-radius: 50%;
+      img {
+        height: 60%;
+        width: 100%;
+        object-fit: contain;
+      }
+    }
+  }
   .user {
     width: 20%;
     margin: 15px;
+    .remove-user-btn {
+      font-size: 25px;
+      font-weight: 600;
+      color: black;
+      background-color: lightgray;
+      position: absolute;
+      top: -20px;
+      right: -20px;
+    }
     & > mat-card-header {
       display: flex;
       flex-direction: column-reverse;
       justify-content: end;
+      height: 100%;
       img {
         border-radius: 50%;
       }

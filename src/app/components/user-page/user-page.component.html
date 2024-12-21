@@ -1,5 +1,6 @@
+<p>user-page works!</p>
+<app-user-details> </app-user-details>
 <div class="posts-container">
-  <!--Form per aggiungere post-->
   <app-post-content *ngFor="let post of posts" [post]="post">
     <app-post-comment [post]="post"></app-post-comment>
   </app-post-content>

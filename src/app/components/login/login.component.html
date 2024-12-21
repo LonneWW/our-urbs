@@ -1,10 +1,14 @@
-<form
-  class="form-container"
-  [formGroup]="loginForm"
-  (ngSubmit)="onSubmit(loginForm)"
->
+<form class="form-container" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
   <h2>Login</h2>
-  <mat-form-field class="token-container" [hideRequiredMarker]="true">
+  <mat-form-field class="form-field" [hideRequiredMarker]="true">
+    <mat-label>Name</mat-label>
+    <input matInput type="text" name="name" formControlName="name" required />
+  </mat-form-field>
+  <mat-form-field class="form-field" [hideRequiredMarker]="true">
+    <mat-label>Email</mat-label>
+    <input matInput type="email" formControlName="email" required />
+  </mat-form-field>
+  <mat-form-field class="form-field" [hideRequiredMarker]="true">
     <mat-label>Access Token</mat-label>
     <input
       matInput
@@ -17,7 +21,7 @@
   <div class="error-message">
     {{
       !loginForm.get("token")?.valid && loginForm.get("token")?.touched
-        ? "Insert a token: the token should be 64 chars long"
+        ? "Please insert a token: the token should be 64 chars long"
         : ""
     }}
   </div>

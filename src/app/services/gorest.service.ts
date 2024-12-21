@@ -10,17 +10,27 @@ import { Post } from '../interfaces/post';
 })
 export class GorestService {
   private apiUrl: string = environment.apiEndpoint;
-  public users: User[] = [];
+  public name: string = '';
+  public email: string = '';
   constructor(private http: HttpClient) {}
 
+  setName(name: string) {
+    this.name = name;
+  }
+
+  setEmail(email: string) {
+    this.email = email;
+  }
+
   getUsers(
+    page: number,
     resultsPerPage: number = 20,
     searchString?: string
   ): Observable<Object> {
     return this.http.get(
-      `${this.apiUrl}/users?page=${1}&per_page=${resultsPerPage}${
+      `${this.apiUrl}/users?page=${page}&per_page=${resultsPerPage}${
         searchString ? '&name=' + searchString : ''
-      }` //aggiungere parametro page con property binding dalla navbar
+      }` //aggiungere parametro page e resultPerPage con property binding dalla navbar
     );
   }
 
@@ -33,9 +43,13 @@ export class GorestService {
     return this.http.delete(`${this.apiUrl}/users/${user.id}`);
   }
 
-  getPosts(resultsPerPage: string, searchString?: string): Observable<Object> {
+  getPosts(
+    page: number,
+    resultsPerPage: number = 20,
+    searchString?: string
+  ): Observable<Object> {
     return this.http.get(
-      `${this.apiUrl}/posts?page=${1}&per_page=${resultsPerPage}${
+      `${this.apiUrl}/posts?page=${page}&per_page=${resultsPerPage}${
         searchString ? '&title=' + searchString : ''
       }` //aggiungere parametro page con property binding dalla navbar
     );
@@ -52,11 +66,10 @@ export class GorestService {
   }
 
   getPostComments(post: Post): Observable<Object> {
-    return this.http.get(`${this.apiUrl}/comments?id=${post.id}`);
+    return this.http.get(`${this.apiUrl}/comments?post_id=${post.id}`);
   }
 
-  setUsers(data: User[]): void {
-    this.users = data;
-    console.log(this.users);
+  postComment(post: Post, body: any) {
+    return this.http.post(`${this.apiUrl}/posts/${post.id}/comments`, body);
   }
 }
