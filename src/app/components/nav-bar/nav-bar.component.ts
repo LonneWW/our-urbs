@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterModule, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import {
   FormGroup,
   FormsModule,
   FormControl,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { filter } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -15,9 +17,10 @@ import { AuthService } from '../../services/auth.service';
 import { SearchService } from '../../services/search.service';
 
 @Component({
-  selector: 'app-search-bar',
+  selector: 'app-nav-bar',
   standalone: true,
   imports: [
+    CommonModule,
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
@@ -27,15 +30,17 @@ import { SearchService } from '../../services/search.service';
     MatFormFieldModule,
     MatInputModule,
   ],
-  templateUrl: './search-bar.component.html',
-  styleUrl: './search-bar.component.scss',
+  templateUrl: './nav-bar.component.html',
+  styleUrl: './nav-bar.component.scss',
 })
-export class SearchBarComponent implements OnInit {
+export class NavBarComponent implements OnInit {
   protected searchForm!: FormGroup;
+  private path: any;
+  protected searchablePage!: boolean;
 
   constructor(
-    private authService: AuthService,
     private router: Router,
+    private authService: AuthService,
     private searchService: SearchService
   ) {}
 
@@ -43,11 +48,26 @@ export class SearchBarComponent implements OnInit {
     this.searchForm = new FormGroup({
       searchField: new FormControl(''),
     });
+
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        this.path = event.urlAfterRedirects;
+        if (this.path == '/users' || this.path == '/posts') {
+          this.searchablePage = true;
+        } else {
+          this.searchablePage = false;
+        }
+      });
   }
 
-  onSearchSubmit() {
+  onSearchSubmit(): void {
     const query = this.searchForm.get('searchField')!.value;
     console.log(query, 'vengo da submit ts');
+    this.searchService.updateSearch(query);
+  }
+
+  changeQuery(query: string): void {
     this.searchService.updateSearch(query);
   }
 

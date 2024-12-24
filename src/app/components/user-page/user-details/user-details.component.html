@@ -1,11 +1,22 @@
 <mat-card class="details-card">
-  <img
-    mat-card-avatar
-    src="https://placehold.co/50/royalblue/orange.svg"
-    alt="user profile pic"
-  />
-  <h2>{{ user.name }}</h2>
-  <span>{{ user.status }}</span>
-  <p>{{ user.email }}</p>
-  <p>{{ user.gender }}</p>
+  <div class="left-side">
+    <img
+      mat-card-avatar
+      src="https://placehold.co/50/royalblue/orange.svg"
+      alt="user profile pic"
+    />
+
+    <span class="user-status"
+      ><mat-icon
+        [ngStyle]="{ color: user.status == 'active' ? 'green' : 'red' }"
+        >circle</mat-icon
+      >{{ user.status | titlecase }}</span
+    >
+  </div>
+  <div class="right-side">
+    <h2>{{ user.name }}</h2>
+    <p>Email: {{ user.email }}</p>
+    <p>Gender: {{ user.gender | titlecase }}</p>
+    <p>Number of posts:</p>
+  </div>
 </mat-card>

@@ -1,11 +1,16 @@
 <mat-toolbar>
   <a routerLink="/home" id="app-logo">Our Urbs</a>
   <div class="nav-btns">
-    <a routerLink="/home">"home"</a>
+    <a routerLink="/users">"users"</a>
     <a routerLink="/posts">"posts"</a>
     <a routerLink="/login">"login"</a>
+    <a routerLink="/1234">"user-page"</a>
   </div>
-  <form [formGroup]="searchForm" (ngSubmit)="onSearchSubmit()">
+  <form
+    [formGroup]="searchForm"
+    (ngSubmit)="onSearchSubmit()"
+    *ngIf="searchablePage"
+  >
     <mat-form-field appearance="outline">
       <mat-label>Search</mat-label>
       <input

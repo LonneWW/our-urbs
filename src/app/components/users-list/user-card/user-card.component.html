@@ -1,0 +1,19 @@
+<mat-card class="user" (click)="toggleFocus()">
+  <mat-card-header>
+    <img
+      src="https://placehold.co/50/royalblue/orange.svg"
+      alt="user profile pic"
+      draggable="false"
+    />
+    <mat-card-title (click)="onUserClick()"> {{ user.name }}</mat-card-title>
+  </mat-card-header>
+  <button
+    *ngIf="isFocused"
+    mat-icon-button
+    aria-label="Delete user icon"
+    class="delete-user-btn"
+    (click)="deleteUser(user)"
+  >
+    <mat-icon>delete</mat-icon>
+  </button>
+</mat-card>

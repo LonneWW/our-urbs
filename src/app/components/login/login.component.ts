@@ -70,7 +70,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         if (r) {
           this.auth.onSuccessfullLogin();
         }
-        this.ruoter.navigate(['/home']);
+        this.ruoter.navigate(['/users']);
       },
       error: (e) => {
         alert('The token is incorrect. Please try again.');

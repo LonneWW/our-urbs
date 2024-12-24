@@ -36,6 +36,7 @@ export class GorestService {
 
   createUser(user: User): Observable<Object> {
     const body = JSON.stringify(user);
+    console.log(body);
     return this.http.post(`${this.apiUrl}/users`, body);
   }
 
@@ -46,23 +47,23 @@ export class GorestService {
   getPosts(
     page: number,
     resultsPerPage: number = 20,
-    searchString?: string
+    searchQuery?: string
   ): Observable<Object> {
     return this.http.get(
       `${this.apiUrl}/posts?page=${page}&per_page=${resultsPerPage}${
-        searchString ? '&title=' + searchString : ''
+        searchQuery ? searchQuery : ''
       }` //aggiungere parametro page con property binding dalla navbar
     );
   }
 
-  createPost(post: Post): Observable<Object> {
+  createPost(post: any): Observable<Object> {
     // Since the REST API does not allow us to register
     // a real User, the body of the post
     // does not require a user id
     //post.user_id = user.id;
 
     const body = JSON.stringify(post);
-    return this.http.post(`${this.apiUrl}/posts`, body);
+    return this.http.post(`${this.apiUrl}/users/${post.user_id}/posts`, body);
   }
 
   getPostComments(post: Post): Observable<Object> {

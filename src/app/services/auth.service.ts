@@ -7,7 +7,7 @@ import { GorestService } from './gorest.service';
   providedIn: 'root',
 })
 export class AuthService {
-  private _isLoggedIn: boolean = false; //da settare default false!
+  private _isLoggedIn: boolean = true; //da settare default false!
   private _token: string = '';
   constructor(private http: HttpClient, private gorestService: GorestService) {}
 

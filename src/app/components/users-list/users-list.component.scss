@@ -2,9 +2,8 @@
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
-  .add-user-card {
+  .create-user-card {
     button {
-      height: 100%;
       width: 100%;
       border-radius: 50%;
       img {
@@ -15,22 +14,19 @@
     }
   }
   .user {
+    /*CREARE MODULO @extends CARD CON SCSS?*/
     width: 20%;
     margin: 15px;
-    .remove-user-btn {
-      font-size: 25px;
-      font-weight: 600;
-      color: black;
-      background-color: lightgray;
-      position: absolute;
-      top: -20px;
-      right: -20px;
-    }
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
     & > mat-card-header {
       display: flex;
       flex-direction: column-reverse;
       justify-content: end;
       height: 100%;
+      padding: 1em;
       img {
         border-radius: 50%;
       }
@@ -43,5 +39,35 @@
         text-align: center;
       }
     }
+  }
+}
+
+.create-user-form-container {
+  position: fixed;
+  z-index: 5;
+  width: 60vw;
+  padding: 2em;
+  background-color: rgba($color: black, $alpha: 0.5);
+  .create-user-form {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    margin: auto 15%;
+    mat-form-field {
+      margin: 1em;
+    }
+  }
+  #create-user-btn {
+    width: 20%;
+    margin: 1em;
+    margin-left: auto;
+  }
+  #close-create-user-form-btn {
+    position: absolute;
+    top: -24px;
+    right: -24px;
+    color: red;
+    background-color: white;
+    border: 1px solid grey;
   }
 }

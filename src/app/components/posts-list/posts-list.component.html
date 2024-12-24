@@ -1,5 +1,24 @@
 <div class="posts-container">
   <!--Form per aggiungere post-->
+  <form
+    [formGroup]="createPostForm"
+    (submit)="onPostCreation()"
+    *ngIf="showForm"
+  >
+    <mat-form-field [hideRequiredMarker]="true">
+      <mat-label>User id</mat-label>
+      <input matInput name="user_id" formControlName="user_id" required />
+    </mat-form-field>
+    <mat-form-field [hideRequiredMarker]="true">
+      <mat-label>Title</mat-label>
+      <input matInput name="title" formControlName="title" required />
+    </mat-form-field>
+    <mat-form-field [hideRequiredMarker]="true">
+      <mat-label>Post's content</mat-label>
+      <input matInput name="body" formControlName="body" required />
+    </mat-form-field>
+    <button mat-raised-button type="submit" id="post-form-btn">Post</button>
+  </form>
   <app-post-content *ngFor="let post of posts" [post]="post">
     <app-post-comment [post]="post"></app-post-comment>
   </app-post-content>

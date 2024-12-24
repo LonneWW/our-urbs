@@ -1,0 +1,38 @@
+.details-card {
+  display: flex;
+  flex-direction: row;
+
+  .left-side {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1em;
+    img {
+      width: 15vw;
+      height: auto;
+      margin: 1em;
+    }
+    .user-status {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      margin-bottom: 1em;
+    }
+  }
+  .right-side {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 1em;
+    width: 100%;
+    h2 {
+      font-size: clamp(4vh, 2.5em, 8vh);
+      margin: 1em 0;
+    }
+    p {
+      margin: 0.5em 0;
+      margin-left: 0.5em;
+    }
+  }
+}
