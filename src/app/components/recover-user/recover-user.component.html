@@ -1,0 +1,30 @@
+<form [formGroup]="recoverUserForm" (submit)="onSubmit()" id="recoverUserForm">
+  <h2>Recover</h2>
+  <mat-form-field class="form-field" [hideRequiredMarker]="true">
+    <mat-label>Email</mat-label>
+    <input matInput type="email" formControlName="email" required />
+  </mat-form-field>
+  <mat-form-field class="form-field" [hideRequiredMarker]="true">
+    <mat-label>Access Token</mat-label>
+    <input
+      matInput
+      name="token"
+      formControlName="token"
+      required
+      minlength="64"
+      type="password"
+    />
+    <mat-hint align="start">Token should be 64 chars long</mat-hint>
+  </mat-form-field>
+  <div class="error-message">
+    {{
+      !recoverUserForm.get("token")?.valid &&
+      recoverUserForm.get("token")?.touched
+        ? "Invalid credentials: check the validity of the email and token"
+        : ""
+    }}
+  </div>
+  <button mat-raised-button type="submit" [disabled]="recoverUserForm.invalid">
+    Submit
+  </button>
+</form>

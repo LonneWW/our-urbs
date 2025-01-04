@@ -3,13 +3,20 @@ import { inject } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 
-export const loginGuard: CanActivateFn = (route, state) => {
+export const loggedInGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
-  if (authService.isLoggedIn) {
+  const user = localStorage.getItem('user');
+  const token = sessionStorage.getItem('token');
+  if (token) {
+    authService.loggedIn();
     return true;
   } else {
-    router.navigate(['login']);
+    if (user) {
+      router.navigate(['login']);
+    } else {
+      router.navigate(['register']);
+    }
     return false;
   }
 };

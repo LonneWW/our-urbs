@@ -3,6 +3,7 @@ import { CommonModule, TitleCasePipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { User } from '../../../interfaces/user';
+import { Post } from '../../../interfaces/post';
 
 @Component({
   selector: 'app-user-details',
@@ -13,4 +14,5 @@ import { User } from '../../../interfaces/user';
 })
 export class UserDetailsComponent {
   @Input() user!: User;
+  @Input() posts!: Post[];
 }

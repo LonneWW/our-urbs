@@ -7,7 +7,7 @@ import { GorestService } from './gorest.service';
   providedIn: 'root',
 })
 export class AuthService {
-  private _isLoggedIn: boolean = true; //da settare default false!
+  private _isLoggedIn: boolean = false; //da settare default false!
   private _token: string = '';
   constructor(private http: HttpClient, private gorestService: GorestService) {}
 
@@ -21,11 +21,14 @@ export class AuthService {
     }
   }
 
-  getAuthToken(): string {
+  getAuthToken(): string | undefined {
+    const token = sessionStorage.getItem('token');
     if (this._token) {
       return this._token;
+    } else if (token) {
+      return token;
     } else {
-      return '';
+      return undefined;
     }
   }
 
@@ -33,12 +36,20 @@ export class AuthService {
     this._token = newToken;
   }
 
-  onTokenSubmit(userToken: string): Observable<any> {
+  onTokenSubmit(userToken: string, mail?: string): Observable<any> {
     this.setAuthToken(userToken);
-    return this.gorestService.getUsers(1);
+    return this.gorestService.getUsers(1, 1, mail);
   }
 
-  onSuccessfullLogin(): void {
+  loggedIn(): void {
     this._isLoggedIn = true;
+  }
+
+  loggingOut() {
+    this.isLoggedIn = false;
+    this.setAuthToken('');
+    this.gorestService.deleteCurrentUser();
+    sessionStorage.removeItem('token');
+    // this.router.navigate(['/login']);
   }
 }

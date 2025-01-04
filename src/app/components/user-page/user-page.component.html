@@ -1,7 +1,7 @@
-<app-user-details [user]="user"> </app-user-details>
+<app-user-details [user]="user" [posts]="posts"> </app-user-details>
 <app-posts-list
   [user]="user"
-  [showForm]="showForm"
-  (onPostsAvailability)="postsAvailability(posts)"
+  [allPostsPage]="allPostsPage"
+  (onPostsAvailability)="postsAvailability($event)"
   *ngIf="showPosts"
 ></app-posts-list>

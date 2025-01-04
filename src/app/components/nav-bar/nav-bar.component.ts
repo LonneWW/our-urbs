@@ -14,6 +14,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { AuthService } from '../../services/auth.service';
+import { GorestService } from '../../services/gorest.service';
 import { SearchService } from '../../services/search.service';
 
 @Component({
@@ -37,10 +38,13 @@ export class NavBarComponent implements OnInit {
   protected searchForm!: FormGroup;
   private path: any;
   protected searchablePage!: boolean;
+  protected placeholder: string = '';
+  protected userId!: string;
 
   constructor(
     private router: Router,
     private authService: AuthService,
+    private gorestService: GorestService,
     private searchService: SearchService
   ) {}
 
@@ -54,8 +58,16 @@ export class NavBarComponent implements OnInit {
       .subscribe((event: NavigationEnd) => {
         this.path = event.urlAfterRedirects;
         if (this.path == '/users' || this.path == '/posts') {
+          this.placeholder = 'Search users by name or email';
           this.searchablePage = true;
+          const userString = localStorage.getItem('user');
+          if (userString) {
+            const user = JSON.parse(userString);
+            this.userId = `/users/${user.id}`;
+            console.log(this.userId);
+          }
         } else {
+          this.placeholder = 'Search posts by';
           this.searchablePage = false;
         }
       });
@@ -71,10 +83,17 @@ export class NavBarComponent implements OnInit {
     this.searchService.updateSearch(query);
   }
 
+  onProfileClick() {
+    console.log('click');
+    const userString = localStorage.getItem('user');
+    if (userString) {
+      const user = JSON.parse(userString);
+      console.log(user);
+      this.router.navigate([`/users/${user.id}`], { state: { user: user } });
+    }
+  }
+
   onLogout(): void {
-    console.log('logout');
-    this.authService.isLoggedIn = false;
-    this.authService.setAuthToken('');
-    this.router.navigate(['/login']);
+    this.authService.loggingOut();
   }
 }

@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -10,7 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { GorestService } from '../../services/gorest.service';
 import { User } from '../../interfaces/user';
-import { Subscription } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { SearchService } from '../../services/search.service';
 import { UserCardComponent } from './user-card/user-card.component';
 
@@ -21,6 +22,7 @@ import { UserCardComponent } from './user-card/user-card.component';
     CommonModule,
     ReactiveFormsModule,
     UserCardComponent,
+    MatPaginatorModule,
     MatCardModule,
     MatIconModule,
     MatButtonModule,
@@ -34,13 +36,10 @@ import { UserCardComponent } from './user-card/user-card.component';
 export class UsersListComponent implements OnInit, OnDestroy {
   users: User[] = [];
   private page: number = 2;
-  private resultsPerPage: number = 20;
-  private userSubscription!: Subscription;
+  protected resultsPerPage: FormControl = new FormControl(12);
+  private destroy$: Subject<void> = new Subject<void>();
   private searchString: string | undefined = '';
-  private searchSubscription!: Subscription;
   private loading: boolean = false;
-  private createUserSubscription!: Subscription;
-  private deleteUserSubscription!: Subscription;
   protected createUserForm: FormGroup = new FormGroup({
     name: new FormControl<string>(''),
     email: new FormControl<string>(''),
@@ -54,25 +53,25 @@ export class UsersListComponent implements OnInit, OnDestroy {
     private router: Router
   ) {}
 
-  @HostListener('window: scroll')
-  onScroll(): void {
-    if (
-      window.scrollY + window.innerHeight >= document.body.scrollHeight * 0.8 &&
-      !this.loading
-    ) {
-      if (this.userSubscription) this.userSubscription.unsubscribe();
-      this.updateUsers();
-    }
-  }
+  // @HostListener('window: scroll')
+  // onScroll(): void {
+  //   if (
+  //     window.scrollY + window.innerHeight >= document.body.scrollHeight * 0.8 &&
+  //     !this.loading
+  //   ) {
+  //     if (this.userSubscription) this.userSubscription.unsubscribe();
+  //     this.updateUsers();
+  //   }
+  // }
 
   updateUsers(): void {
     this.loading = true;
-    this.userSubscription = this.http
-      .getUsers(this.page, this.resultsPerPage, this.searchString)
+    this.http
+      .getUsers(this.page, this.resultsPerPage.value, this.searchString)
+      .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (r) => {
           this.users = [...this.users, ...(r as User[])];
-          console.log(this.users);
           this.loading = false;
           this.page++;
         },
@@ -89,49 +88,70 @@ export class UsersListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.searchSubscription = this.searchService.search$.subscribe((query) => {
+    this.searchService.search$.subscribe((query) => {
       this.searchString = query;
       this.updateUsersBySearch();
     });
+    const userString = localStorage.getItem('user');
+    console.log(userString);
+    if (userString) {
+      let user = JSON.parse(userString);
+      console.log(user);
+      if (!user.id) {
+        this.http
+          .getUsers(1, 1, user.email)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe({
+            next: (r: any) => {
+              let newUser = r[0] as User;
+              this.http.setCurrentUser(newUser);
+            },
+          });
+      }
+    }
   }
 
   ngOnDestroy(): void {
-    if (this.userSubscription) this.userSubscription.unsubscribe();
-    if (this.searchSubscription) this.searchSubscription.unsubscribe();
-    if (this.deleteUserSubscription) this.deleteUserSubscription.unsubscribe();
-    if (this.createUserSubscription) this.createUserSubscription.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
-
   toggleCreateUser(): void {
     this.showCreateForm = !this.showCreateForm;
   } //Da implementare
 
   createUser(): void {
     const user = this.createUserForm.value as User;
-    console.log(user);
-    this.createUserSubscription = this.http.createUser(user).subscribe({
-      next: (r) => {
-        console.log('User creato con successo'); //DA RAFFINARE
-        this.toggleCreateUser();
-      },
-      error: (e) => {
-        console.log(e); //DA RAFFINARE
-      },
-    });
+    this.http
+      .createUser(user)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (r) => {
+          console.log('User creato con successo'); //DA RAFFINARE
+          this.toggleCreateUser();
+        },
+        error: (e) => {
+          console.log(e); //DA RAFFINARE
+        },
+      });
     this.createUserForm.reset();
   }
 
   deleteUser(user: User): void {
     //DA RAFFINARE
     if (confirm(`Sicuro di voler elimanare l'utente "${user.name}"?`)) {
-      this.deleteUserSubscription = this.http.deleteUser(user).subscribe({
-        next: (r) => {
-          const deletedUser = user;
-          this.users = this.users.filter((user) => user.id !== deletedUser.id);
-          console.log(`User ${user.name} id ${user.id} deleted successfully`);
-          //DA FARCI UN MESSAGGIO SNACKBAR
-        },
-      });
+      this.http
+        .deleteUser(user)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (r) => {
+            const deletedUser = user;
+            this.users = this.users.filter(
+              (user) => user.id !== deletedUser.id
+            );
+            console.log(`User ${user.name} id ${user.id} deleted successfully`);
+            //DA FARCI UN MESSAGGIO SNACKBAR
+          },
+        });
     } else {
       alert('Utente non eliminato');
     }

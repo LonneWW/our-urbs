@@ -1,28 +1,23 @@
-.delete-user-btn {
-  font-size: 25px;
-  font-weight: 600;
-  color: black;
-  background-color: white;
-  position: absolute;
-  top: -24px;
-  right: -24px;
-  border: 1px solid grey;
-}
-mat-card-header {
-  display: flex;
-  flex-direction: column-reverse;
-  justify-content: end;
-  height: 100%;
-  padding: 1em;
-  img {
-    border-radius: 50%;
+.user {
+  :hover {
+    cursor: pointer;
   }
-  mat-card-title {
-    height: 3.5em;
-    margin: 1em;
+  mat-card-header {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+    flex-direction: column-reverse;
+    justify-content: end;
+    height: 100%;
+    padding: 1em;
+    img {
+      border-radius: 50%;
+    }
+    mat-card-title {
+      height: 3.5em;
+      margin: 1em;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
   }
 }

@@ -1,0 +1,66 @@
+<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
+  <mat-tab label="Register a new User">
+    <form
+      [formGroup]="registerForm"
+      (submit)="onSubmit()"
+      class="form-container"
+      id="registerForm"
+    >
+      <h2>Register</h2>
+      <mat-form-field class="form-field" [hideRequiredMarker]="true">
+        <mat-label>Name</mat-label>
+        <input
+          matInput
+          type="text"
+          name="name"
+          formControlName="name"
+          required
+        />
+      </mat-form-field>
+      <mat-form-field class="form-field" [hideRequiredMarker]="true">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email" required />
+      </mat-form-field>
+      <mat-form-field class="form-field" [hideRequiredMarker]="true">
+        <mat-label>Gender</mat-label>
+        <mat-select name="gender" formControlName="gender" required>
+          <mat-option value="male">Male</mat-option>
+          <mat-option value="female">Female</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="form-field" [hideRequiredMarker]="true">
+        <mat-label>Access Token</mat-label>
+        <input
+          matInput
+          name="token"
+          formControlName="token"
+          required
+          minlength="64"
+          type="password"
+        />
+        <mat-hint align="start">Token should be 64 chars long</mat-hint>
+      </mat-form-field>
+      <div class="error-message">
+        {{
+          !registerForm.get("token")?.valid &&
+          registerForm.get("token")?.touched
+            ? "Invalid credentials: check the validity of the email and token"
+            : ""
+        }}
+      </div>
+      <button mat-raised-button type="submit" [disabled]="registerForm.invalid">
+        Submit
+      </button>
+    </form>
+  </mat-tab>
+  <mat-tab label="Recover User Data">
+    <app-recover-user
+      class="form-container"
+      (recoverRequest)="onRecoverRequest($event)"
+    ></app-recover-user>
+  </mat-tab>
+</mat-tab-group>
+
+<a href="https://gorest.co.in/consumer/login" target="_blank" id="getTokenLink">
+  Don't have an access token? Get it there!
+</a>

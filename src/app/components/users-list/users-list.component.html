@@ -1,59 +1,18 @@
-<div
-  class="create-user-form-container"
-  (submit)="createUser()"
-  *ngIf="showCreateForm"
->
-  <form [formGroup]="createUserForm" class="create-user-form">
-    <mat-form-field [hideRequiredMarker]="true">
-      <mat-label>Name</mat-label>
-      <input matInput name="name" formControlName="name" required />
-    </mat-form-field>
-    <mat-form-field [hideRequiredMarker]="true">
-      <mat-label>Email</mat-label>
-      <input matInput name="email" formControlName="email" required />
-    </mat-form-field>
-    <mat-form-field [hideRequiredMarker]="true">
-      <mat-label>Gender</mat-label>
-      <mat-select name="gender" formControlName="gender" required>
-        <mat-option value="male">Male</mat-option>
-        <mat-option value="female">Female</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field [hideRequiredMarker]="true">
-      <mat-label>Status</mat-label>
-      <mat-select name="status" formControlName="status" required>
-        <mat-option value="active">Active</mat-option>
-        <mat-option value="inactive">Inactive</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <button mat-raised-button type="submit" id="create-user-btn">
-      Create user
-    </button>
-  </form>
-  <button
-    mat-icon-button
-    (click)="toggleCreateUser()"
-    id="close-create-user-form-btn"
+<mat-form-field class="paginator">
+  <mat-label>Items rendered per load</mat-label>
+  <select
+    matNativeControl
+    [formControl]="resultsPerPage"
+    class="items-select"
+    (change)="updateUsersBySearch()"
   >
-    <mat-icon>close</mat-icon>
-  </button>
-</div>
+    <option value="12" selected>12</option>
+    <option value="24">24</option>
+    <option value="48">48</option>
+  </select>
+</mat-form-field>
 
 <div class="users-container">
-  <mat-card class="user create-user-card">
-    <mat-card-header>
-      <!-- Da implementare-->
-      <button (click)="toggleCreateUser()">
-        <img
-          mat-card-avatar
-          src="https://www.svgrepo.com/show/42164/add-people-interface-symbol-of-black-person-close-up-with-plus-sign-in-small-circle.svg"
-          alt="Add user icon"
-          draggable="false"
-        />
-      </button>
-      <mat-card-title> Create a user </mat-card-title>
-    </mat-card-header>
-  </mat-card>
   <app-user-card
     style="width: 20%; margin: 15px"
     *ngFor="let user of users"

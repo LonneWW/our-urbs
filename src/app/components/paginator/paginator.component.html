@@ -1,0 +1,23 @@
+<mat-form-field class="paginator">
+  <!-- <mat-label>Items per page</mat-label>
+  <select
+    matNativeControl
+    [formControl]="resultsPerPage"
+    class="items-select"
+    (change)="onChange()"
+  >
+    <option value="5" selected>5</option>
+    <option value="10">10</option>
+    <option value="20">20</option>
+  </select> -->
+  <mat-label>Select your car (required)</mat-label>
+  <select matNativeControl required [formControl]="selectFormControl">
+    <option label="--select something --"></option>
+    <option value="saab" selected>Saab</option>
+    <option value="mercedes">Mercedes</option>
+    <option value="audi">Audi</option>
+  </select>
+</mat-form-field>
+<button mat-button (click)="onChangePage(-1)">prev</button>
+page n.
+<button mat-button (click)="onChangePage(1)">next</button>

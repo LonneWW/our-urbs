@@ -1,14 +1,12 @@
+<app-paginator></app-paginator>
 <div class="posts-container">
   <!--Form per aggiungere post-->
   <form
     [formGroup]="createPostForm"
     (submit)="onPostCreation()"
-    *ngIf="showForm"
+    *ngIf="allPostsPage"
   >
-    <mat-form-field [hideRequiredMarker]="true">
-      <mat-label>User id</mat-label>
-      <input matInput name="user_id" formControlName="user_id" required />
-    </mat-form-field>
+    <h1>Create your own post!</h1>
     <mat-form-field [hideRequiredMarker]="true">
       <mat-label>Title</mat-label>
       <input matInput name="title" formControlName="title" required />

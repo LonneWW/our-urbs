@@ -10,26 +10,41 @@ import { Post } from '../interfaces/post';
 })
 export class GorestService {
   private apiUrl: string = environment.apiEndpoint;
-  public name: string = '';
-  public email: string = '';
+  public currentUser!: User;
+
   constructor(private http: HttpClient) {}
 
-  setName(name: string) {
-    this.name = name;
+  setCurrentUser(user: User): void {
+    this.currentUser = user;
+    if (user.token) delete user.token;
+    const userString = JSON.stringify(user);
+    localStorage.setItem('user', userString);
   }
 
-  setEmail(email: string) {
-    this.email = email;
+  deleteCurrentUser(): void {
+    this.currentUser;
+  }
+
+  setSession(token: string | undefined): any {
+    console.log('setSession (da eliminare console.log)');
+    console.log(token);
+    if (token) sessionStorage.setItem('token', token);
   }
 
   getUsers(
     page: number,
-    resultsPerPage: number = 20,
+    resultsPerPage: number = 12,
     searchString?: string
   ): Observable<Object> {
+    let filter: string = '';
+    let searchingByMail: boolean | undefined =
+      searchString?.indexOf('@') !== -1;
+    if (searchString) {
+      searchingByMail ? (filter = '&email=') : (filter = '&name=');
+    }
     return this.http.get(
       `${this.apiUrl}/users?page=${page}&per_page=${resultsPerPage}${
-        searchString ? '&name=' + searchString : ''
+        searchString ? filter + searchString : ''
       }` //aggiungere parametro page e resultPerPage con property binding dalla navbar
     );
   }

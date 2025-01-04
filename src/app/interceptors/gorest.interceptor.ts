@@ -18,7 +18,7 @@ export const gorestInterceptor: HttpInterceptorFn = (
     Accept: 'application/json',
     'Content-Type': 'application/json',
   });
-  authToken != ''
+  authToken
     ? (headers = headers.append('Authorization', `Bearer ${authToken}`))
     : null;
   const newReq = req.clone({

@@ -1,22 +1,29 @@
 .form-container {
-  h2 {
-    font-size: clamp(10vh, 5em, 30vh);
-    text-align: center;
-    margin: 1em 0;
-  }
-  height: 50vh;
+  margin: 1em auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  h2 {
+    font-size: clamp(10vh, 5em, 30vh);
+    text-align: center;
+    padding: 0.5em;
+  }
   .form-field {
     width: 50%;
     margin: 1em 2em 0 2em;
     vertical-align: bottom;
   }
   .error-message {
+    margin-bottom: 0.5em;
     min-height: 1.5em;
     color: red;
     font-size: 15px;
   }
+}
+
+#getTokenLink {
+  position: absolute;
+  bottom: 3em;
+  right: 3em;
 }

@@ -1,13 +1,5 @@
-<h2>Login</h2>
 <form class="form-container" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-  <mat-form-field class="form-field" [hideRequiredMarker]="true">
-    <mat-label>Name</mat-label>
-    <input matInput type="text" name="name" formControlName="name" required />
-  </mat-form-field>
-  <mat-form-field class="form-field" [hideRequiredMarker]="true">
-    <mat-label>Email</mat-label>
-    <input matInput type="email" formControlName="email" required />
-  </mat-form-field>
+  <h2>Login</h2>
   <mat-form-field class="form-field" [hideRequiredMarker]="true">
     <mat-label>Access Token</mat-label>
     <input
@@ -16,12 +8,13 @@
       formControlName="token"
       required
       minlength="64"
+      type="password"
     />
   </mat-form-field>
   <div class="error-message">
     {{
       !loginForm.get("token")?.valid && loginForm.get("token")?.touched
-        ? "Please insert a token: the token should be 64 chars long"
+        ? "Invalid credentials: check the validity of the token"
         : ""
     }}
   </div>
@@ -29,6 +22,3 @@
     Submit
   </button>
 </form>
-<a href="https://gorest.co.in/consumer/login" target="_blank" id="getTokenLink">
-  Don't have an access token? Get it here.
-</a>

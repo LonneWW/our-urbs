@@ -12,7 +12,8 @@ import {
 } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { Subscription } from 'rxjs';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { Subject, takeUntil } from 'rxjs';
 import { GorestService } from '../../services/gorest.service';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
@@ -26,25 +27,25 @@ import { Router } from '@angular/router';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatSnackBarModule,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  loginForm!: FormGroup;
-  loginSubscription!: Subscription;
+  protected loginForm!: FormGroup;
+  private destroy$: Subject<void> = new Subject<void>();
   readonly floatLabelControl = new FormControl('auto' as FloatLabelType);
 
   constructor(
     private http: GorestService,
     private auth: AuthService,
-    private ruoter: Router
+    private ruoter: Router,
+    private _snackbar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
-      name: new FormControl<string>(''),
-      email: new FormControl<string>(''),
       token: new FormControl<string>('', [
         Validators.minLength(64),
         Validators.maxLength(64),
@@ -52,30 +53,35 @@ export class LoginComponent implements OnInit, OnDestroy {
       ]),
     });
   }
-  ngOnDestroy(): void {
-    if (this.loginSubscription) this.loginSubscription.unsubscribe();
-  }
 
   onSubmit(): void {
     const form = this.loginForm.value;
     this.authRequest(form.token);
-    this.http.setName(form.name);
-    this.http.setEmail(form.email);
-    this.loginForm.reset();
   }
 
   authRequest(token: string): void {
-    this.loginSubscription = this.auth.onTokenSubmit(token).subscribe({
-      next: (r) => {
-        if (r) {
-          this.auth.onSuccessfullLogin();
-        }
-        this.ruoter.navigate(['/users']);
-      },
-      error: (e) => {
-        alert('The token is incorrect. Please try again.');
-        //reset form e apparizione snackbar
-      },
-    });
+    this.auth
+      .onTokenSubmit(token)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (r) => {
+          if (r) {
+            this._snackbar.open('Logged in successfully', 'Ok', {
+              duration: 2000,
+            });
+            this.auth.loggedIn();
+            this.http.setSession(token);
+          }
+          this.ruoter.navigate(['/users']);
+        },
+        error: (e) => {
+          this._snackbar.open('Invalid token, please try again', 'Ok');
+          this.loginForm.reset();
+        },
+      });
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

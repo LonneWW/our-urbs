@@ -17,22 +17,20 @@ import { Post } from '../../interfaces/post';
 export class UserPageComponent implements OnInit, OnDestroy {
   protected user!: User;
   protected posts: Post[] = [];
-  protected showForm: boolean = false;
+  protected allPostsPage: boolean = false;
   protected showPosts: boolean = true;
   constructor(private router: Router, private searchService: SearchService) {
     const navigation = this.router.getCurrentNavigation();
     this.user = navigation?.extras?.state?.['user'];
   }
 
-  postsAvailability(posts: any): void {
-    this.posts = posts;
+  postsAvailability(posts: Post[]): void {
     console.log(posts);
+    this.posts = posts;
     this.showPosts = true;
   }
 
-  ngOnInit(): void {
-    console.log('Da user-page');
-  }
+  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this.searchService.updateSearch('');
