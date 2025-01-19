@@ -1,23 +1,179 @@
 /* You can add global styles to this file, and also import other style files */
 
-$primary-color: #3498db;
-$secondary-color: #2ecc71;
-$background-color: #818181;
-$title-color: black;
-$text-color: #2c3e50;
+@use "sass:color";
+
+$primary-color: rgb(118, 36, 244);
+$secondary-color: rgb(199, 248, 125);
+$accent-color: rgb(84, 246, 150);
+$background-primary-color: rgb(242, 236, 254);
+$background-secondary-color: rgb(199, 248, 125);
+$headers-primary-color: black;
+$headers-secondary-color: rgb(30, 3, 66);
+$text-primary-color: rgb(10, 1, 22);
+$text-secondary-color: ivory;
 
 html,
 body {
   height: 100%;
-}
-body {
   margin: 0;
-  background-color: $background-color; //da rimuovere o modificare
+  background-image: linear-gradient(
+    to right top,
+    #7825f4,
+    #9a61fb,
+    #b891fe,
+    #d5beff,
+    #f2ecfe
+  );
+  background-attachment: fixed;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  color: $text-color;
+  color: $text-primary-color;
+  h1 {
+    font-size: clamp(10vh, 5em, 30vh) !important;
+    color: $headers-primary-color;
+    text-align: center;
+    padding: 0.5em;
+  }
+  h2 {
+    font-size: clamp(4vh, 2em, 15vh) !important;
+    color: $headers-secondary-color;
+    line-height: 1 !important;
+  }
+  h3 {
+    font-size: clamp(1em, 1em, 5vh) !important;
+    color: $headers-secondary-color;
+    text-shadow: 1px white;
+    text-align: start;
+    margin-bottom: 8px !important;
+    padding: 5px 0;
+  }
   h1,
   h2,
   h3 {
-    color: $title-color;
+    font-weight: bold !important;
+  }
+  p {
+    font-size: 1em;
+  }
+  mat-hint {
+    font-family: 0.5em;
+  }
+  .text-secondary {
+    color: color.scale($color: $accent-color, $lightness: 20%);
+  }
+  a {
+    padding: 10px;
+    text-decoration: none;
+    color: $primary-color;
+    cursor: pointer;
+    &:hover {
+      background: $background-secondary-color;
+      border-radius: 5px;
+    }
+  }
+  .nav-bar {
+    background-color: $primary-color !important;
+    #app-logo {
+      background-color: transparent;
+      border: none;
+      border-radius: 15px;
+      cursor: pointer;
+      color: $accent-color;
+      min-height: 70px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: all ease-in-out 0.3s;
+      &:hover {
+        background: $accent-color;
+        color: $primary-color;
+      }
+      mat-icon {
+        height: 50px;
+        width: 50px;
+        font-size: 50px;
+        overflow: visible;
+      }
+    }
+    .icon {
+      color: $accent-color;
+    }
+    #sideMenu {
+      background-color: $primary-color !important;
+    }
+  }
+  .nav-list {
+    background-color: $primary-color;
+    margin: 0;
+    li {
+      margin: 2px;
+    }
+    .icon {
+      color: $accent-color;
+    }
+  }
+  main {
+    background-color: $background-primary-color;
+    .paginator {
+      background-color: $primary-color;
+      border: 3px ridge white;
+      .pages-buttons {
+        color: $accent-color;
+      }
+    }
+    .users-container {
+      background-color: color.scale($color: black, $lightness: 20%) !important;
+      min-height: 10px;
+      border: 3px ridge white;
+      border-top: transparent;
+      border-bottom: transparent;
+      .user {
+        background-color: $background-secondary-color;
+        border: 3px ridge $accent-color;
+        border-radius: 20px;
+      }
+    }
+    .posts-container {
+      background-color: color.scale($color: black, $lightness: 20%) !important;
+      border: 3px ridge white;
+      border-top: transparent;
+      border-bottom: transparent;
+      .create-post-form {
+        transition: box-shadow 0.3s ease;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        background-color: $background-secondary-color;
+        border: 3px ridge white;
+      }
+      .post-content {
+        transition: box-shadow 0.3s ease;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        background-color: $background-secondary-color;
+        .comment {
+          background-color: color.scale(
+            $color: $background-primary-color,
+            $lightness: 50%
+          );
+        }
+        .new-comment-form {
+          background-color: color.scale(
+            $color: $background-primary-color,
+            $lightness: 50%
+          );
+        }
+      }
+    }
+  }
+}
+
+.details-card {
+  border: 5px ridge white !important;
+  border-radius: 50px 15px 50px 15px !important;
+  background-color: color.scale(
+    $color: $primary-color,
+    $lightness: -40%
+  ) !important;
+  color: $text-secondary-color !important;
+  margin: 20px 0;
+  .edit-user-card {
+    background-color: inherit;
   }
 }

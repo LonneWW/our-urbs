@@ -1,5 +1,69 @@
 <div class="post-content">
-  <h2 class="post-title">{{ post.title }}</h2>
-  <div class="post-body">{{ post.body }}</div>
+  <div class="edit-buttons-container">
+    <button
+      *ngIf="modificablePosts"
+      mat-icon-button
+      aria-label="Edit post"
+      (click)="modifyPost()"
+      class="edit-btn"
+    >
+      <mat-icon>{{ editIconToggle }}</mat-icon>
+    </button>
+    <button
+      *ngIf="modifyingPost"
+      mat-icon-button
+      aria-label="Confirm edit"
+      (click)="patchPost()"
+      class="edit-btn"
+      [disabled]="
+        postEditForm.get('title')?.invalid ||
+        postEditForm.get('body')?.invalid ||
+        (postEditForm.value.title == post.title &&
+          postEditForm.value.body == post.body)
+      "
+    >
+      <mat-icon>check</mat-icon>
+    </button>
+  </div>
+  <h2 class="post-title" [hidden]="modificablePosts && modifyingPost">
+    {{ post.title }}
+  </h2>
+  <div class="post-body" [hidden]="modificablePosts && modifyingPost">
+    {{ post.body }}
+  </div>
+  <form
+    [formGroup]="postEditForm"
+    class="post-edit-fields"
+    *ngIf="modifyingPost"
+  >
+    <input
+      formControlName="title"
+      type="text"
+      name="post-title"
+      class="post-title-edit"
+      placeholder="Post title"
+    />
+    <p
+      [hidden]="
+        postEditForm.get('title')?.valid || postEditForm.get('title')?.untouched
+      "
+    >
+      The title should be at least 5 chars long
+    </p>
+    <input
+      formControlName="body"
+      type="text"
+      name="post-body"
+      class="post-body-edit"
+      placeholder="Post content"
+    />
+    <p
+      [hidden]="
+        postEditForm.get('body')?.valid || postEditForm.get('body')?.untouched
+      "
+    >
+      Post's content should be at least 20 chars long
+    </p>
+  </form>
   <ng-content></ng-content>
 </div>

@@ -1,5 +1,5 @@
 <form class="form-container" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-  <h2>Login</h2>
+  <h1>Login</h1>
   <mat-form-field class="form-field" [hideRequiredMarker]="true">
     <mat-label>Access Token</mat-label>
     <input
@@ -10,11 +10,12 @@
       minlength="64"
       type="password"
     />
+    <mat-hint align="start">Token should be 64 chars long</mat-hint>
   </mat-form-field>
   <div class="error-message">
     {{
       !loginForm.get("token")?.valid && loginForm.get("token")?.touched
-        ? "Invalid credentials: check the validity of the token"
+        ? "Invalid token, please try again."
         : ""
     }}
   </div>

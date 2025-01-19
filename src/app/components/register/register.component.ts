@@ -18,9 +18,11 @@ import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { User } from '../../interfaces/user';
 
+/* The `RegisterComponent` class defines a component for user registration and data
+recovery, handling form submissions, authentication requests, and user creation with error handling
+and navigation logic. */
 @Component({
   selector: 'app-register',
-  standalone: true,
   imports: [
     ReactiveFormsModule,
     MatFormFieldModule,
@@ -35,9 +37,11 @@ import { User } from '../../interfaces/user';
   styleUrl: './register.component.scss',
 })
 export class RegisterComponent implements OnInit, OnDestroy {
+  /* The `protected registerForm` property is defining a form group.
+  Each form control corresponds to the user model of the Go Rest API*/
   protected registerForm: FormGroup = new FormGroup({
     name: new FormControl<string>(''),
-    email: new FormControl<string>(''),
+    email: new FormControl<string>('', [Validators.email]),
     gender: new FormControl<string>(''),
     token: new FormControl<string>('', [
       Validators.minLength(64),
@@ -46,7 +50,19 @@ export class RegisterComponent implements OnInit, OnDestroy {
     ]),
     status: new FormControl<string>(''),
   });
-  private recoverForm: any;
+  /* The `private recoverForm` property is defining an object representing a
+  FormGroup passed by the "recover-user" component when submitting its form.
+  The form is submitted when the user performs the recovery of his data 
+  (name, id, gender and status) by email (unique and easily known by all users) 
+  and the authorization token.
+  The "recover-user" component handles just a little logic, leaving
+  the http call, handling errors and so on to this component.
+   */
+  private recoverForm!: { email: string; token: string };
+
+  /* The line `private destroy$: Subject<void> = new Subject<void>();` is declaring a private property
+  `destroy$` of type `Subject<void>` and initializing it with a new instance of `Subject<void>`.
+  It's used to unsubscribe to multiple subscriptions on the ngOnDestroy of the component. */
   private destroy$: Subject<void> = new Subject<void>();
 
   constructor(
@@ -59,18 +75,31 @@ export class RegisterComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     const user = localStorage.getItem('user');
     const token = sessionStorage.getItem('token');
-    if (token) {
-      //snackbar, token invalido, vai al login
-      //guard del logout per login e register
-    }
+    // if (token) {
+    //   //snackbar, token invalido, vai al login
+    //   //guard del logout per login e register
+    // }
   }
 
   onSubmit(): void {
     const form = this.registerForm.value;
-    console.log(form);
     this.authRequest(form.token);
   }
 
+  /**
+   * The `authRequest` function handles authentication requests with a token and optional email,
+   * subscribing to the response and handling success or error cases accordingly.
+   * @param {string} token - The `token` parameter in the `authRequest` function is a required string
+   * parameter. It is used for authentication purposes, likely for verifying the user's identity or
+   * access rights.
+   * @param {string} [mail] - The `mail` parameter in the `authRequest` function is an optional parameter
+   * of type string. It is used to provide an email address for authentication along with the token. If a
+   * value is provided for `mail`, it will be passed to the `onTokenSubmit` method along with the token.
+   * This function handles both register and rocover-user-data requests. The first with only the token,
+   * the second also the email.
+   * On a successfull response the function calls "recoverUserDetails" or "onSuccessfullRegister" based
+   * on the previous action. They both menage the login status in similiar ways.
+   */
   authRequest(token: string, mail?: string): void {
     this.auth
       .onTokenSubmit(token, mail)
@@ -84,12 +113,23 @@ export class RegisterComponent implements OnInit, OnDestroy {
           }
         },
         error: (e) => {
-          this._snackbar.open('Invalid token, please try again', 'Ok');
+          this._snackbar.open(
+            'There has been an error. Please check the validity of your token.',
+            'Ok'
+          );
+          console.log(e);
           this.registerForm.reset();
         },
       });
   }
 
+  /**
+   * The `onSuccessfullRegister` function: set the user status to active,
+   * log in the user by "auth.loggedIn",
+   * saves the auth token in the session storage,
+   * creates a new user serverside,
+   * and displays success or error messages accordingly.
+   */
   onSuccessfullRegister(): void {
     const form: User = this.registerForm.value;
     form.status = 'active';
@@ -101,52 +141,62 @@ export class RegisterComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
-          console.log('User created successfully');
           this._snackbar.open('Registered successfully', 'Ok', {
             duration: 2000,
           });
-          //MAT-SNACKBAR DA APP-COMPONENT
           this.ruoter.navigate(['/users']);
         },
         error: (e) => {
-          if (e.error.length > 1) {
-            let message = `There has been some errors:`;
-            for (let i = 0; e.error.length == i; i++) {
-              message = message + `\n${e.error[i].field} ${e.error[i].message}`;
-            }
-            alert(message);
-          }
+          if (localStorage.getItem('user')) localStorage.removeItem('user');
           this._snackbar.open(
-            `Error: ${e.error[0].field} ${e.error[0].message}`,
+            "Couldn't register user successfully, check the console for more details",
             'Ok'
           );
-          if (localStorage.getItem('user')) localStorage.removeItem('user');
           console.log(e);
           this.registerForm.reset();
         },
       });
   }
 
-  onRecoverRequest(recoverForm: FormGroup) {
+  /**
+   * The `onRecoverRequest` function takes a FormGroup as a parameter (a form containing email and token fields),
+   * extracts its value, assigns it to `this.recoverForm`,
+   * and then calls the `authRequest` function with the token and email from the form.
+   * @param {FormGroup} recoverForm - The `recoverForm` parameter is a `FormGroup` object that represents
+   * a form in Angular. It contains the form controls and their values. In the provided code snippet, the
+   * `onRecoverRequest` method takes this `recoverForm` as an input and extracts the form values from it
+   * to perform
+   */
+  onRecoverRequest(recoverForm: FormGroup): void {
     const form = recoverForm.value;
     this.recoverForm = form;
     this.authRequest(form.token, form.email);
   }
 
-  recoverUserDetails(r: User[]) {
-    if (!r[0]) {
-      this._snackbar.open('Incorrect email, please try again.', 'Ok', {
-        duration: 2000,
-      });
+  /**
+   * The function `recoverUserDetails` checks if a user exists in a response array,
+   * (since the API returns an empty array if there is no user registered with the applied email)
+   * and then sets session data and navigates to the "homepage" accordingly.
+   * If the user does exist the function, like "onSuccessfullLogin",
+   * logges in the user by "auth.loggedIn",
+   * saves the auth token in the session storage.
+   * Then saves the user in the localStorage (setCurrentUser),
+   * and displays success or error messages accordingly.
+   * @param {User[]} r - An array of User objects.
+   */
+  recoverUserDetails(r: User[]): void {
+    if (r.length == 0) {
+      this._snackbar.open(
+        'The email is not registered, please try again.',
+        'Ok'
+      );
     } else {
       const token = this.recoverForm.token;
       let user = r[0];
       this.auth.loggedIn();
       this.http.setSession(this.recoverForm.token);
       this.http.setCurrentUser(user);
-      this._snackbar.open('Data recovered successfully', 'Ok', {
-        duration: 2000,
-      });
+      this._snackbar.open('Data recovered successfully', 'Ok');
       this.ruoter.navigate(['/users']);
     }
   }

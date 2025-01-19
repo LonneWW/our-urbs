@@ -1,0 +1,30 @@
+.post-content {
+  border: 3px ridge white;
+  border-radius: 8px;
+  padding: 40px 25px;
+}
+.edit-btn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  float: right;
+}
+.post-title {
+  font-size: 1.5em;
+  margin-bottom: 8px;
+}
+.post-title-edit {
+  width: 80%;
+  font-size: 1.5em;
+  margin-bottom: 8px;
+}
+/* Post body */
+.post-body {
+  font-size: 1em;
+  line-height: 1.5;
+}
+.post-body-edit {
+  width: 80%;
+  font-size: 1em;
+  line-height: 1.5;
+}

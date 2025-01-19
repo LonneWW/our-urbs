@@ -1,19 +1,14 @@
-<mat-toolbar>
-  <a routerLink="/users" id="app-logo">Our Urbs</a>
-  <div class="nav-btns">
-    <a routerLink="/users">"users"</a>
-    <a routerLink="/posts">"posts"</a>
-    <a routerLink="/login">"login"</a>
-    <a routerLink="/register">"register</a>
-    <a routerLink="/1234">"user-page"</a>
-    <button (click)="onProfileClick()">"user-page"</button>
-  </div>
+<mat-toolbar class="nav-bar">
+  <button routerLink="/users" id="app-logo">
+    <span class="logo-text">Our Urbs</span><mat-icon>compost</mat-icon>
+  </button>
   <form
+    class="search-bar"
     [formGroup]="searchForm"
     (ngSubmit)="onSearchSubmit()"
     *ngIf="searchablePage"
   >
-    <mat-form-field appearance="outline">
+    <mat-form-field>
       <mat-label>Search</mat-label>
       <input
         matInput
@@ -22,6 +17,9 @@
         formControlName="searchField"
         [placeholder]="placeholder"
       />
+      <mat-hint align="start" class="text-secondary mat-hint"
+        >Keeping the field empty will reset the research</mat-hint
+      >
       <button
         mat-icon-button
         type="submit"
@@ -33,12 +31,118 @@
       </button>
     </mat-form-field>
   </form>
+  <div class="nav-btns" *ngIf="userLoggedIn">
+    <button
+      mat-button
+      class="btn hover-btn"
+      aria-label="Community"
+      (click)="onNavButtonClick('users')"
+      id="to-users-btn"
+    >
+      <mat-icon
+        class="icon"
+        aria-hidden="false"
+        aria-label="Example thumbs up SVG icon"
+        id="people-group-icon"
+        >diversity_3</mat-icon
+      >
+      <span class="button-text text-secondary">Community</span>
+    </button>
+    <button
+      mat-button
+      class="btn hover-btn"
+      aria-label="Forum"
+      (click)="onNavButtonClick('posts')"
+      id="to-posts-btn"
+    >
+      <mat-icon class="icon" id="forum-icon">forum</mat-icon>
+      <span class="button-text text-secondary">Forum</span>
+    </button>
+    <button
+      mat-button
+      class="btn hover-btn"
+      aria-label="Personal profile "
+      (click)="onProfileClick()"
+      id="to-personal-profile-btn"
+    >
+      <mat-icon class="icon" id="person-icon">person</mat-icon>
+      <span class="button-text text-secondary">Profile</span>
+    </button>
+    <button
+      mat-button
+      class="btn hover-btn"
+      id="logout-btn"
+      aria-label="Logout"
+      (click)="onLogout()"
+    >
+      <mat-icon class="icon" id="logout-icon">logout</mat-icon>
+      <span class="button-text text-secondary">Logout</span>
+    </button>
+  </div>
   <button
     mat-icon-button
-    id="logout-btn"
-    aria-label="Logout button"
-    (click)="onLogout()"
+    [matMenuTriggerFor]="menu"
+    aria-label="Example icon-button with a menu"
+    id="menu-icon"
+    class="icon"
   >
-    <mat-icon id="logout-icon">logout</mat-icon>
+    <mat-icon>menu</mat-icon>
   </button>
+  <mat-menu #menu="matMenu">
+    <ul class="nav-list">
+      <li>
+        <button
+          mat-button
+          class="btn"
+          aria-label="Community"
+          (click)="onNavButtonClick('users')"
+        >
+          <mat-icon
+            class="icon"
+            aria-hidden="false"
+            aria-label="Example thumbs up SVG icon"
+            id="people-group-icon"
+            >diversity_3</mat-icon
+          >
+          <span class="text-secondary">Community</span>
+        </button>
+      </li>
+      <li>
+        <button
+          mat-button
+          class="btn"
+          aria-label="Forum"
+          (click)="onNavButtonClick('posts')"
+          id="to-posts-btn"
+        >
+          <mat-icon class="icon" id="forum-icon">forum</mat-icon>
+          <span class="text-secondary">Forum</span>
+        </button>
+      </li>
+      <li>
+        <button
+          mat-button
+          class="btn"
+          aria-label="Personal profile "
+          (click)="onProfileClick()"
+          id="to-personal-profile-btn"
+        >
+          <mat-icon class="icon" id="person-icon">person</mat-icon>
+          <span class="text-secondary">Profile</span>
+        </button>
+      </li>
+      <li>
+        <button
+          mat-button
+          class="btn"
+          id="logout-btn"
+          aria-label="Logout"
+          (click)="onLogout()"
+        >
+          <mat-icon class="icon">logout</mat-icon>
+          <span class="text-secondary">Logout</span>
+        </button>
+      </li>
+    </ul>
+  </mat-menu>
 </mat-toolbar>

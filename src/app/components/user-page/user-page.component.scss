@@ -1,0 +1,58 @@
+.details-card {
+  display: flex;
+  flex-direction: row;
+  .left-side {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1em;
+    img {
+      width: 15vw;
+      height: auto;
+      margin: 1em;
+      box-shadow: 0 0 12px white;
+    }
+    .user-status {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      margin-bottom: 1em;
+    }
+  }
+  .right-side {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 1em;
+    width: 90%;
+    .btn {
+      align-self: flex-end;
+      width: 10em;
+    }
+    .user-field-container {
+      display: flex;
+      align-items: center;
+      .user-field {
+        width: 60%;
+        .user-name {
+          font-size: clamp(4vh, 2.5em, 8vh);
+          margin: 1em 0;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .details-card {
+    .right-side {
+      width: 50%;
+    }
+  }
+  .user-field-container {
+    input {
+      max-width: 30vw;
+    }
+  }
+}

@@ -1,7 +1,145 @@
-<app-user-details [user]="user" [posts]="posts"> </app-user-details>
+<mat-spinner
+  *ngIf="!user"
+  style="margin-left: auto; margin-right: auto"
+></mat-spinner>
+<mat-card class="details-card">
+  <div class="left-side">
+    <img
+      mat-card-avatar
+      src="https://placehold.co/50/royalblue/orange.svg"
+      alt="user profile pic"
+    />
+    <mat-card-header class="user-status"
+      ><mat-icon
+        [ngStyle]="{ color: user.status == 'active' ? 'lightgreen' : 'red' }"
+        >circle</mat-icon
+      >{{ user.status | titlecase }}</mat-card-header
+    >
+  </div>
+  <mat-card-content class="right-side">
+    <app-user-details
+      [user]="user"
+      [posts]="posts"
+      (deleteUser)="deleteUser()"
+      *ngIf="!currentUserProfile"
+    >
+    </app-user-details>
+    <mat-tab-group *ngIf="currentUserProfile">
+      <mat-tab label="User data">
+        <app-user-details [user]="user" [posts]="posts" *ngIf="user">
+        </app-user-details>
+      </mat-tab>
+      <mat-tab label="Edit user data">
+        <mat-card class="edit-user-card">
+          <div class="edit-user-container">
+            <form [formGroup]="editCredentialsForm">
+              <div class="user-field-container">
+                Name:
+                <input
+                  type="text"
+                  required
+                  class="user-field user-name"
+                  formControlName="name"
+                  name="name"
+                  placeholder="Name"
+                />
+                <button
+                  mat-icon-button
+                  aria-label="Edit name"
+                  class="edit-buttons"
+                  (click)="editField('name')"
+                  [hidden]="editingName"
+                >
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <div class="edit-buttons" *ngIf="editingName">
+                  <button
+                    mat-icon-button
+                    aria-label="Cancel edit"
+                    (click)="patchField()"
+                    [hidden]="!editingName"
+                    [disabled]="
+                      editCredentialsForm.get('name')?.invalid ||
+                      editCredentialsForm.value.name == user.name
+                    "
+                  >
+                    <mat-icon>check</mat-icon>
+                  </button>
+                  <button
+                    mat-icon-button
+                    aria-label="Cancel edit"
+                    (click)="cancelFieldEdit('name')"
+                    [hidden]="!editingName"
+                  >
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </div>
+              </div>
+              <div class="user-field-container">
+                Mail:
+                <input
+                  type="email"
+                  required
+                  name="user-field user-email"
+                  class="user-name-edit"
+                  formControlName="email"
+                  name="email"
+                  placeholder="Email"
+                />
+                <button
+                  mat-icon-button
+                  aria-label="Edit email"
+                  class="edit-buttons"
+                  (click)="editField('email')"
+                  [hidden]="editingEmail"
+                >
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <div class="edit-control-buttons" *ngIf="editingEmail">
+                  <button
+                    mat-icon-button
+                    aria-label="Cancel edit"
+                    (click)="patchField()"
+                    [hidden]="!editingEmail"
+                    [disabled]="
+                      editCredentialsForm.get('email')?.invalid ||
+                      editCredentialsForm.value.email == user.email
+                    "
+                  >
+                    <mat-icon>check</mat-icon>
+                  </button>
+                  <button
+                    mat-icon-button
+                    aria-label="Cancel edit"
+                    (click)="cancelFieldEdit('email')"
+                    [hidden]="!editingEmail"
+                  >
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </form>
+            <button
+              mat-raised-button
+              class="btn hover-btn"
+              *ngIf="currentUserProfile"
+              (click)="deleteUser()"
+            >
+              Delete profile
+            </button>
+          </div>
+        </mat-card>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card-content>
+</mat-card>
+<h3 *ngIf="posts.length == 0" style="margin-left: 5px">
+  There are no posts to show.
+</h3>
 <app-posts-list
+  [hidden]="posts.length == 0"
   [user]="user"
   [allPostsPage]="allPostsPage"
   (onPostsAvailability)="postsAvailability($event)"
-  *ngIf="showPosts"
+  *ngIf="user && showPosts"
 ></app-posts-list>

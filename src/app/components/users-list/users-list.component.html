@@ -1,23 +1,28 @@
-<mat-form-field class="paginator">
-  <mat-label>Items rendered per load</mat-label>
-  <select
-    matNativeControl
-    [formControl]="resultsPerPage"
-    class="items-select"
-    (change)="updateUsersBySearch()"
-  >
-    <option value="12" selected>12</option>
-    <option value="24">24</option>
-    <option value="48">48</option>
-  </select>
-</mat-form-field>
+<app-paginator
+  [listLenght]="users.length"
+  [topPaginator]="true"
+  [itemsPerPageValues]="[8, 16, 24]"
+  [page]="page"
+  (pageEvent)="updateUsersbyPaginator($event.page, $event.resultsPerPage)"
+>
+</app-paginator>
 
 <div class="users-container">
+  <mat-spinner
+    *ngIf="loading && !hideSpinner"
+    style="margin-left: auto; margin-right: auto"
+  ></mat-spinner>
   <app-user-card
-    style="width: 20%; margin: 15px"
+    class="user"
     *ngFor="let user of users"
     [user]="user"
-    (onDeleteUser)="deleteUser(user)"
     (toUserPage)="redirectToUserPage(user)"
   ></app-user-card>
 </div>
+
+<app-paginator
+  [listLenght]="users.length"
+  [page]="page"
+  [showItemsPerPage]="false"
+  (pageEvent)="updateUsersbyPaginator($event.page, $event.resultsPerPage)"
+></app-paginator>

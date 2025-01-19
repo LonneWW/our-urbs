@@ -8,6 +8,8 @@ import { Post } from '../interfaces/post';
 @Injectable({
   providedIn: 'root',
 })
+/* The `GorestService` class in TypeScript provides methods for interacting with a REST API to manage
+users, posts, and comments. */
 export class GorestService {
   private apiUrl: string = environment.apiEndpoint;
   public currentUser!: User;
@@ -26,32 +28,38 @@ export class GorestService {
   }
 
   setSession(token: string | undefined): any {
-    console.log('setSession (da eliminare console.log)');
-    console.log(token);
     if (token) sessionStorage.setItem('token', token);
   }
 
   getUsers(
     page: number,
-    resultsPerPage: number = 12,
+    resultsPerPage: number,
     searchString?: string
   ): Observable<Object> {
     let filter: string = '';
-    let searchingByMail: boolean | undefined =
-      searchString?.indexOf('@') !== -1;
     if (searchString) {
-      searchingByMail ? (filter = '&email=') : (filter = '&name=');
+      let searchingByMail: boolean | undefined =
+        searchString?.indexOf('@') !== -1;
+      let searchingById: boolean = Number.isInteger(Number(searchString));
+      if (searchString) {
+        if (searchingByMail) filter = '&email=';
+        if (searchingById) {
+          filter = '&id=';
+        }
+        if (!searchingById && !searchingByMail) {
+          filter = '&name=';
+        }
+      }
     }
     return this.http.get(
       `${this.apiUrl}/users?page=${page}&per_page=${resultsPerPage}${
         searchString ? filter + searchString : ''
-      }` //aggiungere parametro page e resultPerPage con property binding dalla navbar
+      }`
     );
   }
 
   createUser(user: User): Observable<Object> {
     const body = JSON.stringify(user);
-    console.log(body);
     return this.http.post(`${this.apiUrl}/users`, body);
   }
 
@@ -59,24 +67,29 @@ export class GorestService {
     return this.http.delete(`${this.apiUrl}/users/${user.id}`);
   }
 
+  patchUser(user: User, change: any): Observable<Object> {
+    const body = JSON.stringify(change);
+    return this.http.patch(`${this.apiUrl}/users/${user.id}`, body);
+  }
+
+  patchPost(post: Post, change: any): Observable<Object> {
+    const body = JSON.stringify(change);
+    return this.http.patch(`${this.apiUrl}/posts/${post.id}`, body);
+  }
+
   getPosts(
     page: number,
-    resultsPerPage: number = 20,
+    resultsPerPage: number,
     searchQuery?: string
   ): Observable<Object> {
     return this.http.get(
       `${this.apiUrl}/posts?page=${page}&per_page=${resultsPerPage}${
         searchQuery ? searchQuery : ''
-      }` //aggiungere parametro page con property binding dalla navbar
+      }`
     );
   }
 
   createPost(post: any): Observable<Object> {
-    // Since the REST API does not allow us to register
-    // a real User, the body of the post
-    // does not require a user id
-    //post.user_id = user.id;
-
     const body = JSON.stringify(post);
     return this.http.post(`${this.apiUrl}/users/${post.user_id}/posts`, body);
   }

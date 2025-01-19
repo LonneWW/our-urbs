@@ -1,7 +1,12 @@
+<hr />
 <div class="post-comments">
   <div class="comments-container">
-    <form [formGroup]="commentForm" (submit)="onSubmit(post)">
-      <mat-form-field class="">
+    <form
+      [formGroup]="commentForm"
+      (submit)="onSubmit(post)"
+      class="new-comment-form"
+    >
+      <mat-form-field class="new-comment-field" appearance="outline">
         <textarea
           matInput
           type="textarea"
@@ -9,6 +14,10 @@
           formControlName="body"
           placeholder="Leave a comment here"
           required
+          cdkTextareaAutosize
+          #autosize="cdkTextareaAutosize"
+          cdkAutosizeMinRows="1"
+          cdkAutosizeMaxRows="5"
         ></textarea>
       </mat-form-field>
       <div class="error-message">
@@ -19,8 +28,16 @@
             : ""
         }}
       </div>
-      <button type="submit" [disabled]="commentForm.invalid">Post</button>
+      <button
+        mat-raised-button
+        class="submit-comment-btn"
+        type="submit"
+        [disabled]="commentForm.invalid"
+      >
+        Post
+      </button>
     </form>
+
     <div class="comment" *ngFor="let comment of comments">
       <h3 class="comment-creator">{{ comment.name }}</h3>
       <div class="comment-body">{{ comment.body }}</div>

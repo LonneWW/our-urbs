@@ -1,31 +1,108 @@
-mat-toolbar {
+.nav-bar {
   height: 12vh;
-  background-color: lightblue;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   #app-logo {
     font-size: 25px;
     font-weight: 600;
     margin: auto 2%;
   }
-  mat-form-field {
-    margin-top: 2vh;
+  .search-bar {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     height: 8vh;
+    margin-top: 2vh;
+    min-width: 30vw;
+    mat-form-field {
+      min-width: inherit;
+    }
+    #search-btn {
+      width: 100%;
+      font-size: 25px;
+      font-weight: 600;
+      color: black;
+    }
   }
-  #search-btn {
-    width: 100%;
-    font-size: 25px;
+}
+
+.nav-btns {
+  display: flex;
+  align-items: center;
+  .btn {
+    font-size: large;
+    min-height: 2.5rem;
+    min-width: 2.5rem;
+  }
+  #logout-icon {
     font-weight: 600;
-    color: black;
+  }
+  .icon {
+    font-size: 2rem;
+    height: 2rem;
+    width: 2rem;
   }
 }
 
-#logout-btn {
-  height: 3em;
-  width: 3em;
-  margin-left: auto;
+@media only screen and (min-width: 1024px) {
+  .hover-btn {
+    transition: all 0.3s ease-in-out;
+    transform-origin: bottom right;
+    position: relative;
+    .button-text {
+      font-size: 0px;
+      visibility: hidden;
+      width: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      transition: width 0.3s, visibility 0.3s, font-size 0.3s;
+    }
+    &:hover {
+      .button-text {
+        visibility: visible;
+        width: auto;
+        font-size: large;
+      }
+    }
+  }
+  #menu-icon {
+    display: none;
+  }
 }
 
-#logout-icon {
-  font-size: 25px;
-  font-weight: 600;
-  color: red;
+@media only screen and (max-width: 768px) {
+  .nav-bar {
+    padding: 30px 0;
+    height: auto;
+    #app-logo {
+      width: 70px;
+      border-radius: 50%;
+    }
+    .logo-text {
+      display: none;
+    }
+    .button-text {
+      display: none;
+    }
+    .search-bar {
+      width: 30vw;
+      mat-form-field {
+        width: inherit;
+        mat-hint {
+          display: none;
+        }
+      }
+    }
+    .nav-btns {
+      display: none;
+    }
+    #menu-icon {
+      margin: 10px;
+    }
+  }
+  .nav-list {
+    list-style: none !important;
+    padding: 0 20px;
+  }
 }

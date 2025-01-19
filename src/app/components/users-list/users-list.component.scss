@@ -2,19 +2,7 @@
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
-  .create-user-card {
-    button {
-      width: 100%;
-      border-radius: 50%;
-      img {
-        height: 60%;
-        width: 100%;
-        object-fit: contain;
-      }
-    }
-  }
   .user {
-    /*CREARE MODULO @extends CARD CON SCSS?*/
     width: 20%;
     margin: 15px;
     user-select: none;
@@ -69,5 +57,13 @@
     color: red;
     background-color: white;
     border: 1px solid grey;
+  }
+}
+
+@media only screen and (max-width: 425px) {
+  .users-container {
+    .user {
+      width: 35%;
+    }
   }
 }

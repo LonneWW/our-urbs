@@ -6,7 +6,7 @@
       class="form-container"
       id="registerForm"
     >
-      <h2>Register</h2>
+      <h1>Register</h1>
       <mat-form-field class="form-field" [hideRequiredMarker]="true">
         <mat-label>Name</mat-label>
         <input
@@ -44,7 +44,7 @@
         {{
           !registerForm.get("token")?.valid &&
           registerForm.get("token")?.touched
-            ? "Invalid credentials: check the validity of the email and token"
+            ? "Invalid credentials: check the validity of the email and token."
             : ""
         }}
       </div>

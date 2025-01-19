@@ -8,7 +8,6 @@ import { User } from '../../../interfaces/user';
 
 @Component({
   selector: 'app-user-card',
-  standalone: true,
   imports: [CommonModule, RouterModule, MatCardModule, MatIconModule],
   templateUrl: './user-card.component.html',
   styleUrl: './user-card.component.scss',

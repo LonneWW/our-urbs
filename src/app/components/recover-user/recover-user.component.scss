@@ -4,11 +4,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  h2 {
-    font-size: clamp(10vh, 5em, 30vh);
-    text-align: center;
-    padding: 0.5em;
-  }
   .form-field {
     width: 100%;
     margin: 1em 2em 0 2em;

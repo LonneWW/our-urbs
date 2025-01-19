@@ -1,0 +1,25 @@
+/* Container */
+.posts-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  background-color: aliceblue;
+}
+
+.create-post-form {
+  padding: 25px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  .form-field {
+    width: 80%;
+    &.text-area {
+      overflow: auto;
+    }
+  }
+  .post-form-btn {
+    margin-bottom: 1em;
+  }
+}
