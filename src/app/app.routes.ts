@@ -1,9 +1,7 @@
 import { Routes } from '@angular/router';
-import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { UsersListComponent } from './components/users-list/users-list.component';
 import { PostsListComponent } from './components/posts-list/posts-list.component';
-import { UserPageComponent } from './components/user-page/user-page.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { loggedInGuard } from './guards/logged-in.guard';
 import { loggingOutGuard } from './guards/logging-out.guard';
@@ -22,7 +20,10 @@ export const routes: Routes = [
   },
   {
     path: 'register',
-    component: RegisterComponent,
+    loadComponent: () =>
+      import('./components/register/register.component').then(
+        (m) => m.RegisterComponent
+      ),
     canActivate: [loggingOutGuard],
   },
   {
@@ -37,7 +38,10 @@ export const routes: Routes = [
   },
   {
     path: 'users/:id',
-    component: UserPageComponent,
+    loadComponent: () =>
+      import('./components/user-page/user-page.component').then(
+        (m) => m.UserPageComponent
+      ),
     canActivate: [loggedInGuard, existingUserGuard],
   },
   {
