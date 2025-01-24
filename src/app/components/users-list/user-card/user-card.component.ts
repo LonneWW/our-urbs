@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { GorestService } from '../../../services/gorest.service';
 import { User } from '../../../interfaces/user';
 
 @Component({
@@ -14,9 +13,7 @@ import { User } from '../../../interfaces/user';
 })
 export class UserCardComponent {
   @Input() user!: User;
-  @Output() toUserPage = new EventEmitter();
-
-  constructor(private http: GorestService) {}
+  @Output() toUserPage: EventEmitter<any> = new EventEmitter();
 
   onUserClick(): void {
     this.toUserPage.emit(this.user);

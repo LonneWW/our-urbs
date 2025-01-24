@@ -37,7 +37,7 @@ import { User } from '../../interfaces/user';
 })
 export class NavBarComponent implements OnInit {
   /* The `searchForm` property represent a form used to by the user to make resources*/
-  protected searchForm!: FormGroup;
+  public searchForm!: FormGroup;
   /* The `path` property represent the current path. 
   It is used to toggle the "placeholder" and "searchablePage" property based on the current path.*/
   private path: any;
@@ -156,5 +156,14 @@ export class NavBarComponent implements OnInit {
       this.authService.loggingOut();
       this.router.navigate(['/login']);
     }
+  }
+
+  /*Mehtods adds for testing purposes*/
+  getUserLoggedIn(): boolean {
+    return this.userLoggedIn;
+  }
+
+  getUserId(): string | undefined {
+    return this.userId;
   }
 }

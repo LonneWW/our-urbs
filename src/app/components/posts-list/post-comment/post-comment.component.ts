@@ -25,10 +25,10 @@ import { User } from '../../../interfaces/user';
 export class PostCommentComponent implements OnInit, OnDestroy {
   /* The `comments` property contains the comments of the correlated post.
   Its value is a response to a http call. */
-  protected comments!: any;
+  public comments!: any;
   /* The `commentsSubscription` is a subscription made to get the comments of the post.
   Storing the subscription into a property allow us to unsubscribe later on */
-  private commentsSubscription!: Subscription;
+  private commentsSubscription: Subscription = new Subscription();
   /* The `postedCommentSubscription` is a subscription made to post the new comment of the user.
   Storing the subscription into a property allow us to unsubscribe later on */
   private postedCommentSubscription!: Subscription;
@@ -39,15 +39,15 @@ export class PostCommentComponent implements OnInit, OnDestroy {
   Its value is taken from the parent component "posts-list".*/
   @Input() post!: Post;
 
-  constructor(private http: GorestService, private _snackbar: MatSnackBar) {}
-
-  protected commentForm: FormGroup = new FormGroup({
+  public commentForm: FormGroup = new FormGroup({
     id: new FormControl<number | string>(''),
     user_id: new FormControl<number | string>(''),
     name: new FormControl<string>(''),
     email: new FormControl<string>(''),
     body: new FormControl<string>(''),
   });
+
+  constructor(private http: GorestService, private _snackbar: MatSnackBar) {}
 
   /**
    * Submits a comment for the given post, updates the UI upon success or failure,
@@ -89,20 +89,22 @@ export class PostCommentComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
     // Subscribe to comments for the current post
-    this.commentsSubscription = this.http.getPostComments(this.post).subscribe({
-      // On successful retrieval, assign comments to the property
-      next: (r) => {
-        this.comments = r;
-      },
-      // Handle errors by throwing an error
-      error: (e) => {
-        this._snackbar.open(
-          `Couldn't get any comments of the post '${this.post.title}', check the console for more details`,
-          'Ok'
-        );
-        console.log(e);
-      },
-    });
+    this.commentsSubscription = this.http
+      .getPostComments(this.post)
+      ?.subscribe({
+        // On successful retrieval, assign comments to the property
+        next: (r) => {
+          this.comments = r;
+        },
+        // Handle errors by throwing an error
+        error: (e) => {
+          this._snackbar.open(
+            `Couldn't get any comments of the post '${this.post.title}', check the console for more details`,
+            'Ok'
+          );
+          console.log(e);
+        },
+      });
     // Retrieve the current user from local storage
     this.user = JSON.parse(localStorage.getItem('user')!);
   }

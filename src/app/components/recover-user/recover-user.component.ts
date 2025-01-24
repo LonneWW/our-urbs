@@ -23,7 +23,7 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './recover-user.component.scss',
 })
 export class RecoverUserComponent {
-  protected recoverUserForm: FormGroup = new FormGroup({
+  public recoverUserForm: FormGroup = new FormGroup({
     email: new FormControl<string>('', [Validators.email]),
     token: new FormControl<string>('', [
       Validators.minLength(64),

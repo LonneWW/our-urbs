@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormGroup,
@@ -17,7 +17,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { GorestService } from '../../services/gorest.service';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-
+import { Title } from '@angular/platform-browser';
 /* The LoginComponent class handles user authentication by submitting a token, logging in
 the user upon successful response, and navigating to the homepage, while displaying appropriate
 messages and resetting the form on error. */
@@ -34,12 +34,12 @@ messages and resetting the form on error. */
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
-export class LoginComponent implements OnDestroy {
+export class LoginComponent implements OnInit, OnDestroy {
   /* The loginForm only requires the token, since the user data, after the login, should be saved
   in the localStorage. If not so, a route guard should prevent the client to navigate on the page,
   forcing him to recover the user data or register first.
   */
-  protected loginForm: FormGroup = new FormGroup({
+  public loginForm: FormGroup = new FormGroup({
     token: new FormControl<string>('', [
       Validators.minLength(64),
       Validators.maxLength(64),
@@ -56,7 +56,8 @@ export class LoginComponent implements OnDestroy {
     private http: GorestService,
     private auth: AuthService,
     private ruoter: Router,
-    private _snackbar: MatSnackBar
+    private _snackbar: MatSnackBar,
+    private titleService: Title
   ) {}
 
   onSubmit(): void {
@@ -92,6 +93,10 @@ otherwise it shows an error message and reset the form.
           this.loginForm.controls['token'].markAsUntouched();
         },
       });
+  }
+
+  ngOnInit(): void {
+    this.titleService.setTitle('OurUrbs - Login');
   }
 
   /**

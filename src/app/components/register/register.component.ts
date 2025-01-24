@@ -17,6 +17,7 @@ import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { User } from '../../interfaces/user';
+import { Title } from '@angular/platform-browser';
 
 /* The `RegisterComponent` class defines a component for user registration and data
 recovery, handling form submissions, authentication requests, and user creation with error handling
@@ -39,7 +40,7 @@ and navigation logic. */
 export class RegisterComponent implements OnInit, OnDestroy {
   /* The `protected registerForm` property is defining a form group.
   Each form control corresponds to the user model of the Go Rest API*/
-  protected registerForm: FormGroup = new FormGroup({
+  public registerForm: FormGroup = new FormGroup({
     name: new FormControl<string>(''),
     email: new FormControl<string>('', [Validators.email]),
     gender: new FormControl<string>(''),
@@ -58,7 +59,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   The "recover-user" component handles just a little logic, leaving
   the http call, handling errors and so on to this component.
    */
-  private recoverForm!: { email: string; token: string };
+  public recoverForm!: { email: string; token: string };
 
   /* The line `private destroy$: Subject<void> = new Subject<void>();` is declaring a private property
   `destroy$` of type `Subject<void>` and initializing it with a new instance of `Subject<void>`.
@@ -69,12 +70,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
     private http: GorestService,
     private auth: AuthService,
     private ruoter: Router,
-    private _snackbar: MatSnackBar
+    private _snackbar: MatSnackBar,
+    private titleService: Title
   ) {}
 
   ngOnInit(): void {
     const user = localStorage.getItem('user');
     const token = sessionStorage.getItem('token');
+    this.titleService.setTitle('OurUrbs - Register & Recover');
     // if (token) {
     //   //snackbar, token invalido, vai al login
     //   //guard del logout per login e register

@@ -14,7 +14,7 @@ p {
   margin: 0.5em;
   font-size: 1.5em;
 }
-a {
+button {
   display: inline-block;
   margin-top: 20px;
   padding: 10px 20px;
@@ -24,6 +24,6 @@ a {
   text-decoration: none;
   border-radius: 5px;
 }
-a:hover {
+button:hover {
   background-color: #0056b3;
 }

@@ -28,6 +28,7 @@ import { GorestService } from '../../services/gorest.service';
 import { SearchService } from '../../services/search.service';
 import { Post } from '../../interfaces/post';
 import { User } from '../../interfaces/user';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-posts-list',
@@ -77,11 +78,11 @@ export class PostsListComponent implements OnInit, OnDestroy, OnChanges {
   It can be updated by the paginator with the "updatePostsByPaginator" function and
   it is used to make the http calls to ge the posts.
   */
-  protected resultsPerPage: number = 8;
+  public resultsPerPage: number = 8;
   /* The `createPostForm` property in the `PostsListComponent` class is creating a form group named
   `createPostForm` using Angular's `FormGroup` class. This form group is used to handle the form
   controls for creating a new post. */
-  protected createPostForm: FormGroup = new FormGroup({
+  public createPostForm: FormGroup = new FormGroup({
     title: new FormControl<string>(``, [
       Validators.minLength(5),
       Validators.required,
@@ -97,10 +98,10 @@ export class PostsListComponent implements OnInit, OnDestroy, OnChanges {
   component. By declaring it as `protected`, it can be accessed within the class as well as by any
   subclasses that may extend the `PostsListComponent` class.
   The value is updated mainly by "updatePosts* and the other update functions to reset its value.*/
-  protected posts: Post[] = [];
+  public posts: Post[] = [];
   /* The `page` property represents the page currently displayed.
   It is used to make the http calls to get the posts.*/
-  protected page: number = 1;
+  public page: number = 1;
   /* The `searchString` property represents the string inserted by the user during the research.
   Its value is obtained from the "SearchService", that store and provide the "search$" stream 
   (the origin of the "search string" made by the user).
@@ -116,12 +117,13 @@ export class PostsListComponent implements OnInit, OnDestroy, OnChanges {
   private lastQuery!: [number, number, string];
   /* The `loading` property is a boolean that indicate when the page is fetching users.
   It's used to show or hide the mat-spinner*/
-  protected loading: boolean = false;
+  public loading: boolean = false;
 
   constructor(
     protected http: GorestService,
     private searchService: SearchService,
-    private _snackbar: MatSnackBar
+    private _snackbar: MatSnackBar,
+    private titleService: Title
   ) {}
 
   /**
@@ -132,7 +134,7 @@ export class PostsListComponent implements OnInit, OnDestroy, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     this.onPostsAvailability.emit([]);
     if (changes['user']) {
-      if (this.user.id) this.searchService.updateSearch(this.user.id);
+      if (this.user?.id) this.searchService.updateSearch(this.user.id);
     }
   }
 
@@ -307,6 +309,9 @@ export class PostsListComponent implements OnInit, OnDestroy, OnChanges {
         this.updatePostsBySearch();
       });
     this.currentUser = this.http.currentUser;
+    if (this.allPostsPage) {
+      this.titleService.setTitle('OurUrbs - Forum');
+    }
   }
   /**
    * The `ngOnDestroy` function in TypeScript is used to clean up resources and unsubscribe from

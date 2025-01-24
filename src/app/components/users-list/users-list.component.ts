@@ -17,6 +17,7 @@ import { AuthService } from '../../services/auth.service';
 import { GorestService } from '../../services/gorest.service';
 import { SearchService } from '../../services/search.service';
 import { User } from '../../interfaces/user';
+import { Title } from '@angular/platform-browser';
 
 /* The `UsersListComponent` class is responsible for managing a list of users, handling
 user interactions, making API calls, and subscribing to search updates and user data. */
@@ -80,7 +81,8 @@ with an empty string value and follows the user model of the API. */
     private http: GorestService,
     private searchService: SearchService,
     private router: Router,
-    private _snackbar: MatSnackBar
+    private _snackbar: MatSnackBar,
+    private titleService: Title
   ) {}
 
   /**
@@ -159,6 +161,7 @@ with an empty string value and follows the user model of the API. */
   stream of the searchService to stay updated with the changes of the searchString
   */
   ngOnInit(): void {
+    this.titleService.setTitle('OurUrbs - Community');
     this.searchService.search$
       .pipe(takeUntil(this.destroy$))
       .subscribe((query) => {
@@ -216,6 +219,11 @@ with an empty string value and follows the user model of the API. */
     } else {
       return false;
     }
+  }
+
+  /*The method "getSearchString" returns the component's searchString. It was added for testing purposes.*/
+  public getSearchString(): string | undefined {
+    return this.searchString;
   }
 
   /**

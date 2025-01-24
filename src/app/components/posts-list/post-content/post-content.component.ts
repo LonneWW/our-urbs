@@ -92,9 +92,26 @@ export class PostContentComponent implements OnInit {
     const path = window.location.pathname;
     const user = JSON.parse(localStorage.getItem('user')!);
     // Check if the user is on their own profile page
-    if (path == `/users/${user.id}`) {
+    if (user && path == `/users/${user?.id}`) {
       // If they are, enable the modification of the posts
       this.modificablePosts = true;
     }
+  }
+
+  /*Methods added for testing purposes*/
+  getModifyingPost(): boolean {
+    return this.modifyingPost;
+  }
+
+  getEditIconToggle(): string {
+    return this.editIconToggle;
+  }
+
+  getPostEditForm(): FormGroup {
+    return this.postEditForm;
+  }
+
+  getModificablePosts(): boolean {
+    return this.modificablePosts;
   }
 }

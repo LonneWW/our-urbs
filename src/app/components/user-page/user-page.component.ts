@@ -21,6 +21,7 @@ import { GorestService } from '../../services/gorest.service';
 import { SearchService } from '../../services/search.service';
 import { User } from '../../interfaces/user';
 import { Post } from '../../interfaces/post';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-user-page',
@@ -42,10 +43,16 @@ import { Post } from '../../interfaces/post';
 export class UserPageComponent implements OnInit, OnDestroy {
   /*The property 'user' represent the specific user's data.
   It is obtained through a http call on the initialization of the component */
-  protected user!: User;
+  public user: User = {
+    id: '1',
+    name: 'John Doe',
+    email: 'john@example.com',
+    gender: 'male',
+    status: 'inactive',
+  };
   /*The property 'posts' represent the user's personal posts.
   It is obtained through event binding from the "posts-list" component.*/
-  protected posts: Post[] = [];
+  public posts: Post[] = [];
   /* The line `private destroy$: Subject<void> = new Subject<void>();` is declaring a private property
   `destroy$` of type `Subject<void>` and initializing it with a new instance of `Subject<void>`.
   It's used to unsubscribe to multiple subscriptions on the ngOnDestroy of the component. */
@@ -61,18 +68,18 @@ export class UserPageComponent implements OnInit, OnDestroy {
   the user, this property value is true and "post-list" shown; otherwise this property value is false 
   and the "post-list" component isn't shown.
   */
-  protected showPosts: boolean = true;
+  public showPosts: boolean = true;
   /*The property 'currentUser' represent the user who's logged in.
   It is used to define the boolean value of the "currentUserProfile" property.
   Its value is obtained from the GorestService on the inizialization.
   .*/
-  protected currentUser!: User;
+  public currentUser!: User;
   /*The property 'currentUserProfile' indicates if user showed in the page is the same as the one who's logged in.
   It is used to manage some additional elements of the page, like the "delete profile" button.
   .*/
   protected currentUserProfile: boolean = false;
   /*The property 'editCredentialsForm' represent the form used from the user to edit its personal data..*/
-  protected editCredentialsForm = new FormGroup({
+  public editCredentialsForm = new FormGroup({
     name: new FormControl('', [Validators.minLength(3), Validators.required]),
     email: new FormControl('', [
       Validators.email,
@@ -90,7 +97,8 @@ export class UserPageComponent implements OnInit, OnDestroy {
     private searchService: SearchService,
     private route: ActivatedRoute,
     private http: GorestService,
-    private _snackbar: MatSnackBar
+    private _snackbar: MatSnackBar,
+    private titleService: Title
   ) {}
 
   /**
@@ -150,6 +158,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
             ]);
           }
           this.user = result[0];
+          this.titleService.setTitle(`${this.user.name}'s profile`);
           this.currentUserProfile = this.currentUser?.id === this.user?.id;
           this.editCredentialsForm.patchValue({ name: `${this.user?.name}` });
           this.editCredentialsForm.patchValue({ email: `${this.user?.email}` });

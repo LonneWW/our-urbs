@@ -1,6 +1,6 @@
 <div class="right-side">
-  <h2 style="color: ivory">{{ user.name }}</h2>
-  <p>Email: {{ user.email }}</p>
-  <p>Gender: {{ user.gender | titlecase }}</p>
-  <p *ngIf="posts.length > 0">Number of posts: {{ posts.length }}</p>
+  <h2 style="color: ivory">{{ user?.name }}</h2>
+  <p>Email: {{ user?.email }}</p>
+  <p>Gender: {{ user?.gender | titlecase }}</p>
+  <p *ngIf="posts && posts.length > 0">Number of posts: {{ posts?.length }}</p>
 </div>

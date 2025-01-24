@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { GorestService } from './gorest.service';
 
@@ -9,7 +8,7 @@ import { GorestService } from './gorest.service';
 export class AuthService {
   private _isLoggedIn: boolean = false; //da settare default false!
   private _token: string = '';
-  constructor(private http: HttpClient, private gorestService: GorestService) {}
+  constructor(private gorestService: GorestService) {}
 
   //TO-DO: i setter i getter sono un po' da rivedere. Se questi non vengono ottenute/cambiate al di fuori della classe non ha senso tenerli. Questo riguarda principalmente il token.
   get isLoggedIn(): boolean {
@@ -50,6 +49,5 @@ export class AuthService {
     this.setAuthToken('');
     this.gorestService.deleteCurrentUser();
     sessionStorage.removeItem('token');
-    // this.router.navigate(['/login']);
   }
 }

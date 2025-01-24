@@ -36,7 +36,7 @@ export class PaginatorComponent {
     page: number;
     resultsPerPage: number | null;
   }> = new EventEmitter();
-  protected resultsPerPage: FormControl = new FormControl(8);
+  public resultsPerPage: FormControl = new FormControl(8);
 
   onChange(): void {
     this.pageEvent.emit({
