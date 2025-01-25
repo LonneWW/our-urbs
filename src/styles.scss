@@ -176,4 +176,15 @@ body {
   .edit-user-card {
     background-color: inherit;
   }
+  .user-nick {
+    text-shadow: -1px -1px 0 ivory, 1px -1px 0 ivory, -1px 1px 0 ivory,
+      1px 1px 0 ivory;
+  }
+  mat-tab-group {
+    border: 3px ridge white;
+    border-radius: 50px 15px 50px 15px !important;
+    background-color: $background-secondary-color;
+    padding: 20px;
+    color: $text-primary-color;
+  }
 }

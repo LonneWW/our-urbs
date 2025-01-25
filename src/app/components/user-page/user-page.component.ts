@@ -44,10 +44,10 @@ export class UserPageComponent implements OnInit, OnDestroy {
   /*The property 'user' represent the specific user's data.
   It is obtained through a http call on the initialization of the component */
   public user: User = {
-    id: '1',
-    name: 'John Doe',
-    email: 'john@example.com',
-    gender: 'male',
+    id: '',
+    name: '',
+    email: '',
+    gender: '',
     status: 'inactive',
   };
   /*The property 'posts' represent the user's personal posts.
