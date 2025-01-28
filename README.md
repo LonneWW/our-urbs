@@ -92,6 +92,7 @@ The project was developed with Angular 19.
 ### Built With
 
 - [![ANGULAR][angular-badge]][angular-url]
+- [![ANGULAR-MAT][angular-mat-badge]][angular-mat-url]
 - [![TS][typescript-badge]][typescript-url]
 - [![HTML5][html-badge]][html-url]
 - [![SASS][sass-badge]][sass-url]
@@ -167,6 +168,8 @@ If you'd like to spend some of your time to tell me what you think about it or m
 
 [angular-badge]: https://img.shields.io/badge/Angular-white?style=flat&logo=angular&logoColor=purple
 [angular-url]: https://angular.dev
+[angular-mat-badge]: https://img.shields.io/badge/Angular%20Material-white?logo=angular&logoColor=%2300fbfb
+[angular-mat-url]: https://material.angular.io
 [typescript-badge]: https://img.shields.io/badge/Typescript-white?style=flat&logo=typescript&logoColor=%233178C6
 
 [typescript-url]: https://angular.dev](https://www.typescriptlang.org
