@@ -44,10 +44,18 @@
   }
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 425px) {
   .details-card {
+    flex-direction: column;
+    .left-side {
+      img {
+        width: 20vh;
+      }
+    }
     .right-side {
-      width: 50%;
+      margin-top: 0;
+      margin: 5%;
+      padding: 0;
     }
   }
   .user-field-container {

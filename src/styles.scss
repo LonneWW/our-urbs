@@ -113,6 +113,18 @@ body {
   }
   main {
     background-color: $background-primary-color;
+    #getTokenLink {
+      border: 2px solid $accent-color;
+      border-radius: 10px;
+      background-color: color.scale($color: $primary-color, $lightness: 10%);
+      color: $accent-color;
+      &:hover {
+        border: 2px solid $primary-color;
+        background-color: $accent-color;
+        color: $primary-color;
+      }
+    }
+
     .paginator {
       background-color: $primary-color;
       border: 3px ridge white;
