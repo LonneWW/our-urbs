@@ -106,7 +106,7 @@ The project was developed with Angular 19.
 In order to use the application you'll need to obtain an access token via <a href="https://gorest.co.in/consumer/login">this link</a>. </br>
 Then, you can create your profile using your name, email, gender and access token. Once your user is created successfully, you can later login by providing only your token. </br>
 You can navigate the application using the buttons on the right side of the nav-bar (or log-out, by clicking the last one). </br>
-The first page you'll see is the list of all the users already signed in. Here you can search users by name or email. </br>
+The first page you'll see is the list of all the users already signed in. Here you can search users by name, email or id. </br>
 If you click on one of the shown users, you'll be redirected to their personal profile. Here you can see this user's details and posts, if available. </br>
 You can visit your own profile by clicking on the "Profile" button. Here you can modify your credentials, edit your posts or delete your account.</br>
 By clicking the "Forum" button the app will show all the posts recently uploaded. Here you can search posts by title, create one of your own or comment the others. </br>
